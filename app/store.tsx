@@ -1,23 +1,24 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 //college Switcher //
 
-interface collegeelements {
+interface collegeSchema {
   name: string;
   logo: React.ElementType;
   plan: string;
 }
 interface collage {
-  college: collegeelements;
-  setcollege: (name: collegeelements) => void;
+  college: collegeSchema;
+  setcollege: (name: collegeSchema) => void;
 }
 
 export const collegestore = create<collage>((set) => ({
   college: {
-    name: "none",
+    name: "St Aloysius College Manglore",
     logo: GalleryVerticalEnd,
-    plan: "manglore",
+    plan: "Manglore",
   },
   setcollege: (name) => set({ college: name }),
 }));
