@@ -1,6 +1,5 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
 
 //college Switcher //
 
