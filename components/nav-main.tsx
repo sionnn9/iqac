@@ -36,6 +36,10 @@ export function NavMain({
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
+        <div className="grid flex-1 text-left text-sm leading-tight">
+          <span className="truncate font-medium">{"IQAC"}</span>
+          <span className="truncate text-xs">{"St Aloysius College"}</span>
+        </div>
         {items.map((item) => (
           <Collapsible
             key={item.title}

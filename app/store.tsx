@@ -8,16 +8,16 @@ interface collegeSchema {
   logo: React.ElementType;
   plan: string;
 }
-interface collage {
+interface college {
   college: collegeSchema;
   setcollege: (name: collegeSchema) => void;
 }
 
-export const collegestore = create<collage>((set) => ({
+export const collegestore = create<college>((set) => ({
   college: {
-    name: "St Aloysius College Manglore",
+    name: "Courses",
     logo: GalleryVerticalEnd,
-    plan: "Manglore",
+    plan: "Select a course",
   },
   setcollege: (name) => set({ college: name }),
 }));

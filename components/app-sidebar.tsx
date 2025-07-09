@@ -19,6 +19,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
@@ -30,39 +31,55 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  Colleges: [
-    {
-      name: "St Aloysius College Manglore",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
 
-  projects: [
+  activities: [
     {
-      name: "Up Comming Events",
-      url: "#",
+      name: "Upcomming Events",
+      url: "./upcomming",
       icon: Frame,
     },
     {
-      name: "Upload CV",
-      url: "#",
+      name: "Completed Events",
+      url: "./pastEvents",
       icon: PieChart,
     },
     {
-      name: "Update Events",
-      url: "#",
+      name: "Upload CV",
+      url: "./upload",
       icon: Map,
+    },
+    {
+      name: "Update Events",
+      url: "./update",
+      icon: Map,
+    },
+  ],
+
+  Cources: [
+    {
+      name: "BCA",
+      logo: Map,
+      plan: "Admin block",
+    },
+    {
+      name: "BBA",
+      logo: Map,
+      plan: "Admin block",
+    },
+    {
+      name: "BSe",
+      logo: Map,
+      plan: "Admin block",
+    },
+    {
+      name: "MCA",
+      logo: Map,
+      plan: "Admin block",
+    },
+    {
+      name: "BVOC",
+      logo: Map,
+      plan: "Admin block",
     },
   ],
 };
@@ -71,10 +88,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.Colleges} />
+        <SidebarContent>
+          {" "}
+          <div className="w-full h-20 flex justify-center items-center flex-col">
+            <div className="flex flex-col">
+              <SidebarGroupLabel className="truncate font-medium text-2xl">
+                {"IQAC"}
+              </SidebarGroupLabel>
+              <SidebarGroupLabel className="truncate text-xs mt-0">
+                {"St Aloysius College"}
+              </SidebarGroupLabel>
+            </div>
+          </div>
+        </SidebarContent>
+        <TeamSwitcher teams={data.Cources}></TeamSwitcher>
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.activities} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
