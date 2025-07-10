@@ -4,10 +4,10 @@ import { AppSidebar } from "@/components/app-sidebar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="w-screen h-screen flex overflow-hidden">
       <SidebarProvider>
-        <AppSidebar /> <SidebarTrigger className="w-15 h-15 ml-3" />
-        <main>{children}</main>
+        <AppSidebar />
+        <main className="w-full">{children}</main>
       </SidebarProvider>
     </div>
   );

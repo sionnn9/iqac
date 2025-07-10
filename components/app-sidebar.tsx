@@ -54,34 +54,6 @@ const data = {
       icon: Map,
     },
   ],
-
-  Cources: [
-    {
-      name: "BCA",
-      logo: Map,
-      plan: "Admin block",
-    },
-    {
-      name: "BBA",
-      logo: Map,
-      plan: "Admin block",
-    },
-    {
-      name: "BSe",
-      logo: Map,
-      plan: "Admin block",
-    },
-    {
-      name: "MCA",
-      logo: Map,
-      plan: "Admin block",
-    },
-    {
-      name: "BVOC",
-      logo: Map,
-      plan: "Admin block",
-    },
-  ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -101,7 +73,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </div>
           </div>
         </SidebarContent>
-        <TeamSwitcher teams={data.Cources}></TeamSwitcher>
       </SidebarHeader>
       <SidebarContent>
         <NavProjects projects={data.activities} />
