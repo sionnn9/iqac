@@ -49,7 +49,7 @@ const data = {
       icon: Map,
     },
     {
-      name: "boobs",
+      name: "Update Events",
       url: "./update",
       icon: Map,
     },
