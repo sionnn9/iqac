@@ -2,7 +2,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
-      <Link href="/dashboard/upcomming">Dashboard</Link>
+      <Link href="/userDashboard">Dashboard</Link>
+      <Link href="/adminDashboard">Admin Dashboard</Link>
     </div>
   );
 }

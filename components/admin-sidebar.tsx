@@ -34,29 +34,21 @@ const data = {
 
   activities: [
     {
-      name: "Upcomming Events",
-      url: "/userDashboard/upcomming",
+      name: "Events",
+      url: "/adminDashboard/eventControl",
       icon: Frame,
     },
     {
-      name: "Completed Events",
-      url: "/userDashboard/pastEvents",
+      name: "userApproval",
+      url: "/adminDashboard/userApproval",
       icon: PieChart,
-    },
-    {
-      name: "Upload CV",
-      url: "/userDashboard/upload",
-      icon: Map,
-    },
-    {
-      name: "Update Events",
-      url: "/userDashboard/update",
-      icon: Map,
     },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AdminAppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>

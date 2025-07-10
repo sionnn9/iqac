@@ -1,12 +1,12 @@
 import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AdminAppSidebar } from "@/components/admin-sidebar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-screen h-screen flex overflow-hidden">
       <SidebarProvider>
-        <AppSidebar />
+        <AdminAppSidebar />
         <main className="w-full">{children}</main>
       </SidebarProvider>
     </div>
