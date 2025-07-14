@@ -20,9 +20,7 @@ export default function Page() {
         {colleges.map((num) => (
           <button
             key={num}
-            onClick={() =>
-              (window.location.href = `/adminDashboard/course/${num}`)
-            }
+            onClick={() => (window.location.href = `/adminDashboard/course`)}
             className="w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-3 hover:bg-gray-100 transition duration-200"
           >
             {/* Icon */}

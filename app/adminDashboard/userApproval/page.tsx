@@ -7,7 +7,7 @@ const Page = () => {
       <div className="bg-gray-950 w-full h-20 flex items-center">
         <SidebarTrigger className="w-15 h-15 ml-3 text-white" />
         <div className="w-full text-white flex justify-center items-center text-xl">
-          {"USer Approval"}
+          {"User Approval"}
         </div>
       </div>
     </div>
