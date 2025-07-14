@@ -21,15 +21,19 @@ export default function Page() {
           <button
             key={num}
             onClick={() => (window.location.href = `/adminDashboard/course`)}
-            className="w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
+            className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
+                       transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
+            {/* Red Strip with Rounded Top Corners */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-blue-900 rounded-t-xl" />
+
             {/* Icon */}
-            <div className="text-4xl bg-blue-100 text-blue-700 p-4 rounded-full">
+            <div className="text-4xl bg-blue-100 text-blue-700 p-4 rounded-full z-10">
               🎓
             </div>
 
             {/* College Name */}
-            <div className="text-center font-bold text-lg sm:text-lg pt-3">
+            <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
               St. Aloysius College {num}
             </div>
           </button>
