@@ -4,7 +4,7 @@ import { AdminAppSidebar } from "@/components/admin-sidebar";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-screen h-screen flex overflow-hidden">
+    <div className="w-screen h-screen flex ">
       <SidebarProvider>
         <AdminAppSidebar />
         <main className="w-full">{children}</main>
