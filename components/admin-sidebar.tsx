@@ -1,28 +1,17 @@
 "use client";
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { Frame, PieChart } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { userstore } from "@/app/store";
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { ClerkProvider, UserButton } from "@clerk/nextjs";
 
 // This is sample data.
 const data = {
@@ -49,6 +38,7 @@ const data = {
 export function AdminAppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const userinfo = userstore();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -69,9 +59,14 @@ export function AdminAppSidebar({
       <SidebarContent>
         <NavProjects projects={data.activities} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      <ClerkProvider>
+        <div className="flex justify-center items-center">
+          <UserButton />
+          <SidebarGroupLabel className="ml-2 text-sm">
+            {userinfo.userdetails.name}
+          </SidebarGroupLabel>
+        </div>
+      </ClerkProvider>
       <SidebarRail />
     </Sidebar>
   );
