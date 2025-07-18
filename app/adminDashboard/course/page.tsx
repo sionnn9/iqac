@@ -16,7 +16,7 @@ export default function Page() {
       {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <button
-          onClick={() => (window.location.href = `/adminDashboard/course`)}
+          onClick={() => (window.location.href = `/adminDashboard/assign`)}
           className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
         >
