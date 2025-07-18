@@ -1,23 +1,19 @@
-import { GalleryVerticalEnd } from "lucide-react";
 import { create } from "zustand";
 
-//college Switcher //
-
-interface collegeSchema {
+interface user {
   name: string;
-  logo: React.ElementType;
-  plan: string;
+  email: string;
+  id: string;
 }
-interface college {
-  college: collegeSchema;
-  setcollege: (name: collegeSchema) => void;
+interface Userstore {
+  userdetails: user;
+  userjwt: string;
+  setuser: (user: user) => void;
+  setjwt: (jwt: string) => void;
 }
-
-export const collegestore = create<college>((set) => ({
-  college: {
-    name: "Courses",
-    logo: GalleryVerticalEnd,
-    plan: "Select a course",
-  },
-  setcollege: (name) => set({ college: name }),
+export const userstore = create<Userstore>((set) => ({
+  userdetails: { name: "", email: "", id: "" },
+  userjwt: "",
+  setuser: (user) => set({ userdetails: user }),
+  setjwt: (jwt) => set({ userjwt: jwt }),
 }));
