@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
+import { userstore } from "@/app/store";
 
 import {
   Sidebar,
@@ -58,6 +59,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const username = userstore();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -83,7 +85,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <div className="flex justify-center items-center">
             <UserButton />
             <SidebarGroupLabel className="ml-2 text-sm">
-              Your account
+              {username.userdetails.name}
             </SidebarGroupLabel>
           </div>
         </ClerkProvider>

@@ -25,7 +25,7 @@ export default function Page() {
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
             {/* Red Strip with Rounded Top Corners */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-blue-900 rounded-t-xl" />
+            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
             {/* Icon */}
             <div className="text-4xl bg-blue-100 text-blue-700 p-4 rounded-full z-10">
