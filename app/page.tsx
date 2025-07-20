@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import { useEffect } from "react";
 import { userstore } from "./store";
+import { json } from "stream/consumers";
 
 export default function Home() {
   //storing user data to the zustand file
@@ -16,12 +17,36 @@ export default function Home() {
   const { isLoaded, isSignedIn, user } = useUser();
   useEffect(() => {
     if (!isLoaded || !isSignedIn || !user) return;
+
     const data = {
       name: user.fullName || "",
       email: user.emailAddresses?.[0]?.emailAddress || "",
       id: user.id,
     };
+
     userfunctions.setuser(data);
+
+    const SignedInfunction = async () => {
+      try {
+        const jwt = await fetch("https://iqac-ifj8.onrender.com/api/signup", {
+          method: "POST", // ✅ Use POST
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: data.email,
+            userid: data.name,
+          }),
+        });
+
+        const result = await jwt.json();
+        console.log("Backend response:", result);
+      } catch (error) {
+        console.error("Error syncing with backend:", error);
+      }
+    };
+
+    SignedInfunction();
   }, [isLoaded, isSignedIn, user?.id]);
 
   return (
