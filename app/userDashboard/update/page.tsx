@@ -20,7 +20,7 @@ export default function Page() {
         {Event.map((num) => (
           <button
             key={num}
-            onClick={() => (window.location.href = `/userDashboard/`)}
+            onClick={() => (window.location.href = `/userDashboard/eventinfo`)}
             className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
