@@ -1,31 +1,60 @@
-'use client'
-
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const fetchJwt = async () => {
+    try {
+      const jwt = await fetch("https://iqac-ifj8.onrender.com/api/signup", {
+        method: "POST", // ✅ Use POST
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+      if (!jwt.ok) {
+        alert("Somthing went Wrong");
+      }
+      const data = await jwt.json();
+      if (data?.user?.role == "admin") {
+        router.push("/adminDashboard");
+      }
+      if (data?.user?.role == "user") {
+        router.push("/userDashboard");
+      }
+    } catch (e) {
+      console.log("error:", e);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // 🔐 Handle your login logic here
-    console.log("Email:", email)
-    console.log("Password:", password)
-  }
+    console.log("Email:", email);
+    console.log("Password:", password);
+    fetchJwt();
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -87,5 +116,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
