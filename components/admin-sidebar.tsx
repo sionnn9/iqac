@@ -32,6 +32,11 @@ const data = {
       url: "/adminDashboard/userApproval",
       icon: PieChart,
     },
+    {
+      name: "Users",
+      url: "/adminDashboard/user",
+      icon: PieChart,
+    },
   ],
 };
 

@@ -1,6 +1,82 @@
 "use client";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Plus } from "lucide-react";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useState } from "react";
+const AddBranchButton = () => {
+  const [name, setname] = useState("");
+  const AddBranches = async () => {
+    try {
+      console.log("backend link:", process.env);
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}addBranch`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            name: name,
+          }),
+        }
+      );
+      if (!responce.ok) {
+        console.log("error");
+      } else {
+        const data = await responce.json();
+        console.log(data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        {" "}
+        <button className="w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+          <Plus />
+          <h1 className="mt-9 font-bold">Add Branch</h1>
+        </button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Name Of The Branch</AlertDialogTitle>
+        </AlertDialogHeader>
+        <input
+          onChange={(e) => {
+            setname(e.target.value);
+          }}
+          placeholder="Department"
+          className="flex justify-center border-black p-2 items-center border  rounded-xl h-10 "
+        />
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              AddBranches();
+            }}
+          >
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
 
 export default function Page() {
   const colleges = [1, 2, 3, 4, 5];
@@ -25,10 +101,10 @@ export default function Page() {
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
             {/* Red Strip with Rounded Top Corners */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-blue-900 rounded-t-xl" />
+            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
             {/* Icon */}
-            <div className="text-4xl bg-blue-100 text-blue-700 p-4 rounded-full z-10">
+            <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
               🎓
             </div>
 
@@ -38,6 +114,7 @@ export default function Page() {
             </div>
           </button>
         ))}
+        <AddBranchButton />
       </div>
     </div>
   );

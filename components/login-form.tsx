@@ -24,7 +24,8 @@ export function LoginForm({
   const fetchJwt = async () => {
     try {
       const jwt = await fetch("https://iqac-ifj8.onrender.com/api/signup", {
-        method: "POST", // ✅ Use POST
+        method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -36,8 +37,11 @@ export function LoginForm({
       if (!jwt.ok) {
         alert("Somthing went Wrong");
       }
+
       const data = await jwt.json();
+      console.log(data);
       if (data?.user?.role == "admin") {
+        console.log(document.cookie);
         router.push("/adminDashboard");
       }
       if (data?.user?.role == "user") {
