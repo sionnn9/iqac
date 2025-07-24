@@ -13,6 +13,8 @@ import {
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect } from "react";
 
 const AddDepartmentButton = () => {
   return (
@@ -42,7 +44,37 @@ const AddDepartmentButton = () => {
   );
 };
 export default function Page() {
-  const AddDepartment = async () => {};
+  // Department Id SHould come from params
+  const param = useParams();
+  useEffect(() => {
+    console.log(param.id);
+  }, []);
+  const AddCourse = async () => {
+    try {
+      console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}addBranch`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            name: name,
+          }),
+        }
+      );
+      if (!responce.ok) {
+        console.log("error");
+      } else {
+        const data = await responce.json();
+        console.log(data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div className="w-full min-h-screen bg-gray-100">
       {/* Top Bar */}

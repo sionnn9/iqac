@@ -14,11 +14,12 @@ import { Plus } from "lucide-react";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useState } from "react";
+import Link from "next/link";
 const AddBranchButton = () => {
   const [name, setname] = useState("");
   const AddBranches = async () => {
     try {
-      console.log("backend link:", process.env);
+      console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}addBranch`,
         {
@@ -80,6 +81,7 @@ const AddBranchButton = () => {
 
 export default function Page() {
   const colleges = [1, 2, 3, 4, 5];
+  const BranchId = [1, 2, 3, 4, 5];
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
@@ -93,26 +95,27 @@ export default function Page() {
 
       {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {colleges.map((num) => (
-          <button
-            key={num}
-            onClick={() => (window.location.href = `/adminDashboard/course`)}
-            className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
+        {colleges.map((num, i) => (
+          <Link href={`/adminDashboard/eventControl/${BranchId[i]}`}>
+            <button
+              key={num}
+              className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
-          >
-            {/* Red Strip with Rounded Top Corners */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+            >
+              {/* Red Strip with Rounded Top Corners */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
-            {/* Icon */}
-            <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
-              🎓
-            </div>
+              {/* Icon */}
+              <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
+                🎓
+              </div>
 
-            {/* College Name */}
-            <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-              St. Aloysius College {num}
-            </div>
-          </button>
+              {/* College Name */}
+              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
+                St. Aloysius College {num}
+              </div>
+            </button>
+          </Link>
         ))}
         <AddBranchButton />
       </div>

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLoggedin } from "@/app/store";
 
 export function LoginForm({
   className,
@@ -20,6 +21,7 @@ export function LoginForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const isLoggedin = useLoggedin();
 
   const fetchJwt = async () => {
     try {
@@ -41,10 +43,13 @@ export function LoginForm({
       const data = await jwt.json();
       console.log(data);
       if (data?.user?.role == "admin") {
-        console.log(document.cookie);
+        isLoggedin.setLoggedIn();
+        isLoggedin.setRole("admin");
         router.push("/adminDashboard");
       }
       if (data?.user?.role == "user") {
+        isLoggedin.setLoggedIn();
+        isLoggedin.setRole("user");
         router.push("/userDashboard");
       }
     } catch (e) {
