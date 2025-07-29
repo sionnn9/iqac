@@ -34,7 +34,8 @@ const AddBranchButton = () => {
         }
       );
       if (!responce.ok) {
-        console.log("error");
+        const text = await responce.json(); // instead of json
+        console.log("error", text || "No response body");
       } else {
         const data = await responce.json();
         console.log(data);

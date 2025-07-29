@@ -11,7 +11,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { ClerkProvider, UserButton } from "@clerk/nextjs";
 
 // This is sample data.
 const data = {
@@ -64,14 +63,13 @@ export function AdminAppSidebar({
       <SidebarContent>
         <NavProjects projects={data.activities} />
       </SidebarContent>
-      <ClerkProvider>
-        <div className="flex justify-center items-center">
-          <UserButton />
-          <SidebarGroupLabel className="ml-2 text-sm">
-            {userinfo.userdetails.name}
-          </SidebarGroupLabel>
-        </div>
-      </ClerkProvider>
+
+      <div className="flex justify-center items-center">
+        <SidebarGroupLabel className="ml-2 text-sm">
+          {userinfo.userdetails.name}
+        </SidebarGroupLabel>
+      </div>
+
       <SidebarRail />
     </Sidebar>
   );

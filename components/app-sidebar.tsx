@@ -24,7 +24,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { UserButton, ClerkProvider } from "@clerk/nextjs";
 
 // This is sample data.
 const data = {
@@ -80,16 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavProjects projects={data.activities} />
       </SidebarContent>
-      <SidebarFooter>
-        <ClerkProvider>
-          <div className="flex justify-center items-center">
-            <UserButton />
-            <SidebarGroupLabel className="ml-2 text-sm">
-              {username.userdetails.name}
-            </SidebarGroupLabel>
-          </div>
-        </ClerkProvider>
-      </SidebarFooter>
+      <SidebarFooter></SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
