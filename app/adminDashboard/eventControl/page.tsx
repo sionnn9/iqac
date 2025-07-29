@@ -47,7 +47,7 @@ const AddBranchButton = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         {" "}
-        <button className="w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+        <button className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
           <Plus />
           <h1 className="mt-9 font-bold">Add Branch</h1>
         </button>
