@@ -57,23 +57,52 @@ const CourseCard: React.FC<CourseCardProps> = ({
 
       <DialogContent className="sm:max-w-[425px]">
         <form>
-          <DialogHeader>
+          <DialogHeader className="text-center flex flex-col items-center">
             <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
-            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Label htmlFor="title-1">Title</Label>
+              <Input id="title-1" name="title" placeholder="Title" />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Label htmlFor="description-1">Description</Label>
+              <Input
+                id="description-1"
+                name="description"
+                placeholder="Description"
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="date-1">Date</Label>
+              <Input id="date-1" name="date" type="date" placeholder="Date" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="time-1">Time</Label>
+              <Input id="time-1" name="time" type="time" placeholder="Time" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="level-1">Level</Label>
+              <Input id="level-1" name="level" placeholder="Level" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="mode-1">Mode</Label>
+              <Input id="mode-1" name="mode" placeholder="Mode" />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="participants-1">Participants</Label>
+              <Input
+                id="participants-1"
+                name="participants"
+                placeholder="Participants"
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="file-1">File</Label>
+              <Input id="file-1" name="file" type="file" placeholder="File" />
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter className="mt-4">
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
