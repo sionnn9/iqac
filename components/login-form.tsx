@@ -25,7 +25,7 @@ export function LoginForm({
 
   const fetchJwt = async () => {
     try {
-      const jwt = await fetch("https://iqac-ifj8.onrender.com/api/signup", {
+      const jwt = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LINK}signup`, {
         method: "POST",
         credentials: "include",
         headers: {
