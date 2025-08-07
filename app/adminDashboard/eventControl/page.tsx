@@ -82,6 +82,7 @@ const AddBranchButton = () => {
 
 export default function Page() {
   const colleges = UseBranches();
+  const Branches = colleges.names;
 
   const GetBranches = async () => {
     try {
@@ -126,7 +127,7 @@ export default function Page() {
 
       {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {colleges.names.map((data, i) => (
+        {Branches.map((data, i) => (
           <Link
             key={"names" + i}
             href={`/adminDashboard/eventControl/${data._id}`}
