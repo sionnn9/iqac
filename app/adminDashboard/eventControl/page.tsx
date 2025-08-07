@@ -48,7 +48,7 @@ const AddBranchButton = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         {" "}
-        <button className="w-56 ml-15 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
           <Plus />
           <h1 className="mt-9 font-bold">Add Branch</h1>
         </button>
@@ -129,12 +129,12 @@ export default function Page() {
       </div>
 
       {/* Card Grid */}
-      <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="p-4 flex flex-wrap justify-center items-center">
         {Branches?.names?.map((data, i) => (
           <Link
             key={"names" + i}
             href={`/adminDashboard/eventControl/${data._id}`}
-            className="relative w-56  h-56 m-5  bg-white shadow-md rounded-xl flex flex-col items-center justify-center 
+            className="relative w-56 m-3  h-56   bg-white shadow-md rounded-xl flex flex-col items-center justify-center 
                  transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
             {/* Red Strip with Rounded Top Corners */}
