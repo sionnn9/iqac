@@ -81,8 +81,8 @@ const AddBranchButton = () => {
 };
 
 export default function Page() {
-  const colleges = UseBranches();
-  const Branches = colleges.names;
+  const Branches = UseBranches();
+  const setBranches = UseBranches((state) => state.setBranches);
 
   const GetBranches = async () => {
     try {
@@ -103,8 +103,8 @@ export default function Page() {
       } else {
         const data = await responce.json();
         console.log(data?.branches, ": my branches");
-        colleges.setBranches(data?.Branches);
-        console.log(colleges.names);
+        setBranches(data?.branches);
+        console.log(Branches);
       }
     } catch (e) {
       console.log(e);
@@ -113,7 +113,10 @@ export default function Page() {
 
   useEffect(() => {
     GetBranches();
-  }, [colleges]);
+  }, []);
+  useEffect(() => {
+    GetBranches();
+  }, [setBranches]);
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
@@ -127,7 +130,7 @@ export default function Page() {
 
       {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {Branches.map((data, i) => (
+        {Branches?.names?.map((data, i) => (
           <Link
             key={"names" + i}
             href={`/adminDashboard/eventControl/${data._id}`}
