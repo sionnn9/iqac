@@ -11,9 +11,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Plus } from "lucide-react";
-
+import { UseBranches } from "@/app/store";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 const AddBranchButton = () => {
   const [name, setname] = useState("");
@@ -34,7 +34,7 @@ const AddBranchButton = () => {
         }
       );
       if (!responce.ok) {
-        const text = await responce.json(); // instead of json
+        const text = await responce.json();
         console.log("error", text || "No response body");
       } else {
         const data = await responce.json();
@@ -48,7 +48,7 @@ const AddBranchButton = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         {" "}
-        <button className="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+        <button className="w-56 ml-15 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
           <Plus />
           <h1 className="mt-9 font-bold">Add Branch</h1>
         </button>
@@ -81,8 +81,38 @@ const AddBranchButton = () => {
 };
 
 export default function Page() {
-  const colleges = [1, 2, 3, 4, 5];
-  const BranchId = [1, 2, 3, 4, 5];
+  const colleges = UseBranches();
+
+  const GetBranches = async () => {
+    try {
+      console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}getBranch`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      if (!responce.ok) {
+        const text = await responce.json();
+        console.log("error", text || "No response body");
+      } else {
+        const data = await responce.json();
+        console.log(data?.branches, ": my branches");
+        colleges.setBranches(data?.Branches);
+        console.log(colleges.names);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    GetBranches();
+  }, [colleges]);
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
@@ -96,26 +126,25 @@ export default function Page() {
 
       {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {colleges.map((num, i) => (
-          <Link href={`/adminDashboard/eventControl/${BranchId[i]}`}>
-            <button
-              key={num}
-              className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
-                       transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
-            >
-              {/* Red Strip with Rounded Top Corners */}
-              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+        {colleges.names.map((data, i) => (
+          <Link
+            key={"names" + i}
+            href={`/adminDashboard/eventControl/${data._id}`}
+            className="relative w-56  h-56 m-5  bg-white shadow-md rounded-xl flex flex-col items-center justify-center 
+                 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+          >
+            {/* Red Strip with Rounded Top Corners */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
-              {/* Icon */}
-              <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
-                🎓
-              </div>
+            {/* Icon */}
+            <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
+              🎓
+            </div>
 
-              {/* College Name */}
-              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-                St. Aloysius College {num}
-              </div>
-            </button>
+            {/* College Name */}
+            <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
+              {data.name}
+            </div>
           </Link>
         ))}
         <AddBranchButton />

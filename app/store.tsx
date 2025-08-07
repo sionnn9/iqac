@@ -30,3 +30,23 @@ export const useLoggedin = create<LoggedinState>((set, get) => ({
   setLoggedIn: () => set({ isLoggedin: !get().isLoggedin }),
   setRole: (role) => set({ role: role }),
 }));
+
+// Branches //
+type branchesresponce = {
+  _id: string;
+  name: string;
+};
+interface Branches {
+  names: branchesresponce[];
+  setBranches: (data: branchesresponce[]) => void;
+}
+
+export const UseBranches = create<Branches>((set) => ({
+  names: [
+    {
+      _id: "",
+      name: "Fetching Data",
+    },
+  ],
+  setBranches: (data) => set({ names: data }),
+}));
