@@ -17,6 +17,54 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 
 const AddDepartmentButton = () => {
+  const Branch_id = useParams();
+  /*
+  const getDepartments = async () => {
+    try {
+      console.log(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}getDepartment?departmentId=${Branch_id.id}`
+      );
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}getDepartment?departmentId=${Branch_id.id}`,
+        {
+          method: "GET",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      const contentType = response.headers.get("content-type");
+
+      
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Non-JSON response:", text);
+        return;
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error:", errorData);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Departments:", data);
+
+    
+    } catch (e) {
+      console.error("Request failed:", e);
+    }
+  };
+
+  useEffect(() => {
+    console.log(Branch_id.id);
+    getDepartments();
+  }, []); */
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>

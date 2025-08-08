@@ -17,9 +17,38 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 const AddBranchButton = () => {
   const [name, setname] = useState("");
+  const Branches = UseBranches();
+  const setBranches = UseBranches((state) => state.setBranches);
+
+  const GetBranches = async () => {
+    try {
+      // console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}getBranch`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      if (!responce.ok) {
+        const text = await responce.json();
+        console.log("error", text || "No response body");
+      } else {
+        const data = await responce.json();
+        //console.log(data?.branches, ": my branches");
+        setBranches(data?.branches);
+        // console.log(Branches);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const AddBranches = async () => {
     try {
-      console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      //console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}addBranch`,
         {
@@ -36,12 +65,14 @@ const AddBranchButton = () => {
       if (!responce.ok) {
         const text = await responce.json();
         console.log("error", text || "No response body");
+        alert("somthing went wrong");
       } else {
         const data = await responce.json();
-        console.log(data);
+        //console.log(data);
+        GetBranches();
       }
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
   };
   return (
@@ -86,7 +117,7 @@ export default function Page() {
 
   const GetBranches = async () => {
     try {
-      console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      // console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}getBranch`,
         {
@@ -102,9 +133,9 @@ export default function Page() {
         console.log("error", text || "No response body");
       } else {
         const data = await responce.json();
-        console.log(data?.branches, ": my branches");
+        // console.log(data?.branches, ": my branches");
         setBranches(data?.branches);
-        console.log(Branches);
+        // console.log(Branches);
       }
     } catch (e) {
       console.log(e);
