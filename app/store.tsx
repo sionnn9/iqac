@@ -25,9 +25,9 @@ type LoggedinState = {
 };
 
 export const useLoggedin = create<LoggedinState>((set, get) => ({
-  isLoggedin: false,
+  isLoggedin: true,
   role: "none",
-  setLoggedIn: () => set({ isLoggedin: !get().isLoggedin }),
+  setLoggedIn: () => set({ isLoggedin: get().isLoggedin }),
   setRole: (role) => set({ role: role }),
 }));
 
@@ -49,4 +49,19 @@ export const UseBranches = create<Branches>((set) => ({
     },
   ],
   setBranches: (data) => set({ names: data }),
+}));
+
+// department thing//
+
+type deparmentSchema = {
+  name: string;
+  id: string;
+};
+
+export const DepartmentStore = create<{
+  departments: deparmentSchema[];
+  setDepartments: (data: deparmentSchema[]) => void;
+}>((set) => ({
+  departments: [],
+  setDepartments: (data) => set({ departments: data }),
 }));
