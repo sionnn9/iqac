@@ -164,7 +164,7 @@ export default function Page() {
         {Branches?.names?.map((data, i) => (
           <Link
             key={"names" + i}
-            href={`/adminDashboard/eventControl/${data._id}`}
+            href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
             className="relative w-56 m-3  h-56   bg-white shadow-md rounded-xl flex flex-col items-center justify-center 
                  transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >

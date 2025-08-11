@@ -14,7 +14,7 @@ import Link from "next/link";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";
 
 const AddDepartmentButton = () => {
@@ -96,7 +96,8 @@ const AddDepartmentButton = () => {
 };
 export default function Page() {
   // Department Id SHould come from params
-
+  const searchparam = useSearchParams();
+  const BranchName = searchparam.get("branch");
   const param = useParams();
   const [departments, setdepartments] =
     useState<{ name: string; _id: string }[]>();
@@ -136,7 +137,7 @@ export default function Page() {
       <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
         <SidebarTrigger className="text-white mr-4" />
         <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-          Coursess
+          Courses in {BranchName}
         </h1>
       </div>
 
@@ -144,7 +145,9 @@ export default function Page() {
       {departments?.map((data, i) => {
         return (
           <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            <Link href={`./${param.id}/assign?id=${data._id}`}>
+            <Link
+              href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
+            >
               <button
                 className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
