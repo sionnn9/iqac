@@ -15,11 +15,12 @@ import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 
 const AddDepartmentButton = () => {
   const Branch_id = useParams();
   const [departmentName, setDepartmentName] = useState("");
+
   // fetching all the departments in the Branch
   const AddDepartment = async () => {
     try {
@@ -97,7 +98,8 @@ export default function Page() {
   // Department Id SHould come from params
 
   const param = useParams();
-  const [departments, setdepartments] = useState<[{ name: string }]>();
+  const [departments, setdepartments] =
+    useState<{ name: string; _id: string }[]>();
 
   const getDepartment = async () => {
     try {
@@ -142,7 +144,7 @@ export default function Page() {
       {departments?.map((data, i) => {
         return (
           <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            <Link href={`./${param.id}/assign`}>
+            <Link href={`./${param.id}/assign?id=${data._id}`}>
               <button
                 className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"

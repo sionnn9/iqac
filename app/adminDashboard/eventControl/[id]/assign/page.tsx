@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
   Select,
@@ -9,6 +10,125 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useParams, useSearchParams } from "next/navigation";
+import { Plus } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState, ChangeEvent } from "react";
+const Adduserbutton = () => {
+  const searchparam = useSearchParams();
+  const id = searchparam.get("id");
+
+  const department_id = useParams();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [role, setRole] = useState("user"); // default value
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setRole(e.target.value);
+  };
+  useEffect(() => {
+    console.log("aa:", id);
+  }, []);
+
+  const addUser = async () => {
+    try {
+      //console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}addUser`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            department_id: id,
+            role: role,
+          }),
+        }
+      );
+      if (!responce.ok) {
+        const text = await responce.json();
+        console.log("error", text || "No response body");
+        alert("somthing went wrong");
+      } else {
+        const data = await responce.json();
+        console.log(data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger>
+        {" "}
+        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+          <Plus />
+          <h1 className="mt-9 font-bold">Add Users</h1>
+        </button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
+        </AlertDialogHeader>
+        <input
+          onChange={(e) => {
+            setemail(e.target.value);
+          }}
+          placeholder="Gmail"
+          className="flex justify-center border-black p-2 items-center border  rounded-xl h-10 "
+        />
+        <AlertDialogHeader>
+          <AlertDialogTitle>Password</AlertDialogTitle>
+        </AlertDialogHeader>
+        <input
+          onChange={(e) => {
+            setpassword(e.target.value);
+          }}
+          placeholder="Password"
+          className="flex justify-center border-black p-2 items-center border  rounded-xl h-10 "
+        />
+        <AlertDialogHeader>
+          <AlertDialogTitle>Role</AlertDialogTitle>
+        </AlertDialogHeader>
+        <select
+          id="role"
+          value={role}
+          onChange={handleChange}
+          className="border px-2 py-1 rounded"
+        >
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+        </select>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={() => {
+              addUser();
+            }}
+          >
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
 const Page = () => {
   return (
     <div className="w-full h-auto ">
@@ -41,6 +161,7 @@ const Page = () => {
           submit
         </Button>
       </div>
+      <Adduserbutton />
     </div>
   );
 };

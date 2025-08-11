@@ -1,6 +1,19 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useParams } from "next/navigation";
 
 const page = () => {
   return (
@@ -10,6 +23,7 @@ const page = () => {
         <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
           Users
         </h1>
+        <div className="w-full h-full"></div>
       </div>
     </div>
   );
