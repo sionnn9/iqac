@@ -1,10 +1,22 @@
 "use client";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -15,71 +27,58 @@ import { UseBranches } from "@/app/store";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+
 const AddBranchButton = () => {
   const [name, setname] = useState("");
-  const Branches = UseBranches();
   const setBranches = UseBranches((state) => state.setBranches);
 
   const GetBranches = async () => {
     try {
-      // console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}getBranch`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         }
       );
-      if (!responce.ok) {
-        const text = await responce.json();
-        console.log("error", text || "No response body");
-      } else {
+      if (responce.ok) {
         const data = await responce.json();
-        //console.log(data?.branches, ": my branches");
         setBranches(data?.branches);
-        // console.log(Branches);
+      } else {
+        console.log("Error fetching branches");
       }
     } catch (e) {
       console.log(e);
     }
   };
+
   const AddBranches = async () => {
     try {
-      //console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}addBranch`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
-          body: JSON.stringify({
-            name: name,
-          }),
+          body: JSON.stringify({ name }),
         }
       );
-      if (!responce.ok) {
-        const text = await responce.json();
-        console.log("error", text || "No response body");
-        alert("somthing went wrong");
-      } else {
-        const data = await responce.json();
-        //console.log(data);
+      if (responce.ok) {
+        await responce.json();
         GetBranches();
+      } else {
+        alert("Something went wrong");
       }
     } catch (e) {
-      //console.log(e);
+      console.log(e);
     }
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        {" "}
-        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
+        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center bg-white rounded-2xl shadow border">
           <Plus />
           <h1 className="mt-9 font-bold">Add Branch</h1>
         </button>
@@ -89,22 +88,13 @@ const AddBranchButton = () => {
           <AlertDialogTitle>Name Of The Branch</AlertDialogTitle>
         </AlertDialogHeader>
         <input
-          onChange={(e) => {
-            setname(e.target.value);
-          }}
+          onChange={(e) => setname(e.target.value)}
           placeholder="Department"
-          className="flex justify-center border-black p-2 items-center border  rounded-xl h-10 "
+          className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
         />
-
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={() => {
-              AddBranches();
-            }}
-          >
-            Continue
-          </AlertDialogAction>
+          <AlertDialogAction onClick={AddBranches}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -117,25 +107,19 @@ export default function Page() {
 
   const GetBranches = async () => {
     try {
-      // console.log("backend link:", process.env.NEXT_PUBLIC_BACKEND_LINK);
       const responce = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}getBranch`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         }
       );
-      if (!responce.ok) {
-        const text = await responce.json();
-        console.log("error", text || "No response body");
-      } else {
+      if (responce.ok) {
         const data = await responce.json();
-        // console.log(data?.branches, ": my branches");
         setBranches(data?.branches);
-        // console.log(Branches);
+      } else {
+        console.log("Error fetching branches");
       }
     } catch (e) {
       console.log(e);
@@ -145,9 +129,6 @@ export default function Page() {
   useEffect(() => {
     GetBranches();
   }, []);
-  useEffect(() => {
-    GetBranches();
-  }, [setBranches]);
 
   return (
     <div className="w-full min-h-screen bg-gray-100">
@@ -162,13 +143,11 @@ export default function Page() {
       {/* Card Grid */}
       <div className="p-4 flex flex-wrap justify-center items-center">
         {Branches?.names?.map((data, i) => (
-          <Link
+          <div
             key={"names" + i}
-            href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
-            className="relative w-56 m-3  h-56   bg-white shadow-md rounded-xl flex flex-col items-center justify-center 
-                 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+            className="relative w-56 m-3 h-56 bg-white shadow-md rounded-xl flex flex-col items-center justify-center transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
           >
-            {/* Red Strip with Rounded Top Corners */}
+            {/* Red Strip */}
             <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
             {/* Icon */}
@@ -180,7 +159,55 @@ export default function Page() {
             <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
               {data.name}
             </div>
-          </Link>
+
+            {/* Actions */}
+            <div className="flex gap-2 mt-3">
+              <Link
+                href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
+                className="px-2 py-1.5 bg-green-600 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
+              >
+                Open
+              </Link>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <form>
+                    <DialogHeader className="text-center flex flex-col items-center">
+                      <DialogTitle>Edit profile</DialogTitle>
+                      <DialogDescription>Update the name</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4">
+                      {[["name", "Name", "text"]].map(([id, label, type]) => (
+                        <div key={id} className="grid gap-3">
+                          <Label htmlFor={id}>{label}</Label>
+                          <Input
+                            id={id}
+                            name={id}
+                            type={type}
+                            placeholder={label}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <DialogFooter className="mt-4">
+                      <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogClose>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
         ))}
         <AddBranchButton />
       </div>

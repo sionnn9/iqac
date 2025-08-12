@@ -1,5 +1,18 @@
 "use client";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -145,27 +158,69 @@ export default function Page() {
       {departments?.map((data, i) => {
         return (
           <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            <Link
-              href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
-            >
-              <button
-                className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
+            <button
+              className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
                        transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
-              >
-                {/* Red Strip with Rounded Top Corners */}
-                <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+            >
+              {/* Red Strip with Rounded Top Corners */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
-                {/* Icon */}
-                <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
-                  🎓
-                </div>
+              {/* Icon */}
+              <div className="text-4xl  text-blue-700 p-4 rounded-full z-10">
+                🎓
+              </div>
 
-                {/* College Name */}
-                <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-                  {data.name}
-                </div>
-              </button>
-            </Link>
+              {/* College Name */}
+              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
+                {data.name}
+              </div>
+              <div className="flex gap-2 mt-3">
+                <Link
+                  href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
+                  className="px-2 py-1.5 bg-green-600 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
+                >
+                  Open
+                </Link>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      Edit
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <form>
+                      <DialogHeader className="text-center flex flex-col items-center">
+                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogDescription>Update the name</DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4">
+                        {[["name", "Name", "text"]].map(([id, label, type]) => (
+                          <div key={id} className="grid gap-3">
+                            <Label htmlFor={id}>{label}</Label>
+                            <Input
+                              id={id}
+                              name={id}
+                              type={type}
+                              placeholder={label}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <DialogFooter className="mt-4">
+                        <DialogClose asChild>
+                          <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button type="submit">Save changes</Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </button>
           </div>
         );
       })}

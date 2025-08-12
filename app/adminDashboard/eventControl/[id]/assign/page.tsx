@@ -143,6 +143,7 @@ const Page = () => {
         <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
           number of guests
         </h2>
+
         <Select>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Events" />
@@ -154,7 +155,11 @@ const Page = () => {
             <SelectItem value="event4">Event4</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex w-full mt-10 max-w-sm items-center gap-2">
+
+        <div className="flex w-full my-5 max-w-sm items-center gap-2">
+          <Input type="text" placeholder="mode of event" />
+        </div>
+        <div className="flex w-full mt-5 max-w-sm items-center gap-2">
           <Input type="number" placeholder="number of guest" />
         </div>
         <Button type="submit" variant="outline" className="w-full mt-6">
