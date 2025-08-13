@@ -1,19 +1,8 @@
 "use client";
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { Frame, Map, PieChart } from "lucide-react";
 import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
+
 import { userstore } from "@/app/store";
 
 import {

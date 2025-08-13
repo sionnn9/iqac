@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,6 +28,7 @@ import { UseBranches } from "@/app/store";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AddBranchButton = () => {
   const [name, setname] = useState("");
@@ -103,7 +105,11 @@ const AddBranchButton = () => {
 
 export default function Page() {
   const Branches = UseBranches();
+  const router = useRouter();
   const setBranches = UseBranches((state) => state.setBranches);
+  const [newBranchName, setNewBranchName] = useState("");
+  const [branchId, setBranchId] = useState("");
+  const [isOpen, setOpen] = useState(false);
 
   const GetBranches = async () => {
     try {
@@ -125,7 +131,34 @@ export default function Page() {
       console.log(e);
     }
   };
-
+  const EditBranch = async () => {
+    if (newBranchName.trim()[0] == "") {
+      alert("No content added");
+      return;
+    }
+    try {
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}updateBranch/${branchId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ name: newBranchName }),
+        }
+      );
+      if (!responce.ok) {
+        alert(responce.text);
+        return;
+      }
+      const data = await responce.json();
+      console.log(data);
+      router.refresh();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     GetBranches();
   }, []);
@@ -164,16 +197,19 @@ export default function Page() {
             <div className="flex gap-2 mt-3">
               <Link
                 href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
-                className="px-2 py-1.5 bg-green-600 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
+                className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
               >
                 Open
               </Link>
 
-              <Dialog>
+              <Dialog open={isOpen}>
                 <DialogTrigger asChild>
                   <Button
-                    className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      setBranchId(data._id);
+                      setOpen(true);
+                    }}
+                    className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
                   >
                     Edit
                   </Button>
@@ -185,23 +221,30 @@ export default function Page() {
                       <DialogDescription>Update the name</DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4">
-                      {[["name", "Name", "text"]].map(([id, label, type]) => (
-                        <div key={id} className="grid gap-3">
-                          <Label htmlFor={id}>{label}</Label>
-                          <Input
-                            id={id}
-                            name={id}
-                            type={type}
-                            placeholder={label}
-                          />
-                        </div>
-                      ))}
+                      <div className="grid gap-3">
+                        <Label>{"Name"}</Label>
+                        <Input
+                          placeholder={"text"}
+                          onChange={(e) => {
+                            setNewBranchName(e.target.value);
+                          }}
+                        />
+                      </div>
                     </div>
                     <DialogFooter className="mt-4">
                       <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                       </DialogClose>
-                      <Button type="submit">Save changes</Button>
+                      <Button
+                        type="button"
+                        onClick={async (e) => {
+                          await EditBranch();
+                          await GetBranches();
+                          setOpen(false);
+                        }}
+                      >
+                        Save changes
+                      </Button>
                     </DialogFooter>
                   </form>
                 </DialogContent>

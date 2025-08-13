@@ -177,7 +177,7 @@ export default function Page() {
               <div className="flex gap-2 mt-3">
                 <Link
                   href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
-                  className="px-2 py-1.5 bg-green-600 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
+                  className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
                 >
                   Open
                 </Link>
@@ -185,7 +185,7 @@ export default function Page() {
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
-                      className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+                      className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
                       onClick={(e) => e.stopPropagation()}
                     >
                       Edit
