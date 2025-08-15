@@ -55,7 +55,7 @@ export const UseBranches = create<Branches>((set) => ({
 
 type deparmentSchema = {
   name: string;
-  id: string;
+  _id: string;
 };
 
 export const DepartmentStore = create<{
