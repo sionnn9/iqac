@@ -202,7 +202,7 @@ export default function Page() {
                 Open
               </Link>
 
-              <Dialog open={isOpen}>
+              <Dialog open={isOpen} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button
                     onClick={(e) => {
