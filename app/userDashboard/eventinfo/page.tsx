@@ -14,12 +14,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type CourseCardProps = {
   heading: string;
   course: string;
   phase: string;
   status: "Completed" | "Not Completed";
+  year: number; // 🔹 added year
 };
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -27,6 +29,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
   course,
   phase,
   status,
+  year,
 }) => {
   return (
     <Dialog>
@@ -37,6 +40,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </div>
         <div className="text-gray-700 mb-1">
           <span className="font-medium">Phase:</span> {phase}
+        </div>
+        <div className="text-gray-700 mb-1">
+          <span className="font-medium">Year:</span> {year} {/* 🔹 show year */}
         </div>
         <div className="text-gray-700 mb-4">
           <span className="font-medium">Status:</span>{" "}
@@ -65,14 +71,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               <Label htmlFor="title-1">Title</Label>
               <Input id="title-1" name="title" placeholder="Title" />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="description-1">Description</Label>
-              <Input
-                id="description-1"
-                name="description"
-                placeholder="Description"
-              />
-            </div>
+
             <div className="grid gap-3">
               <Label htmlFor="date-1">Date</Label>
               <Input id="date-1" name="date" type="date" placeholder="Date" />
@@ -98,8 +97,13 @@ const CourseCard: React.FC<CourseCardProps> = ({
               />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="file-1">File</Label>
-              <Input id="file-1" name="file" type="file" placeholder="File" />
+              <Label htmlFor="file-1">Upload File</Label>
+              <Input
+                id="file-1"
+                name="file"
+                type="file"
+                placeholder="Upload File"
+              />
             </div>
           </div>
           <DialogFooter className="mt-4">
@@ -115,15 +119,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
 };
 
 const Page: React.FC = () => {
-  const totalCards = 3;
+  const totalCards = 5;
 
   const courseData: CourseCardProps[] = Array.from(
     { length: totalCards },
     (_, i) => ({
       heading: `Event`,
       course: `BCA`,
-      phase: `Phase 1`,
+      phase: i % 2 === 0 ? "Phase 1" : "Phase 2",
       status: i % 2 === 0 ? "Completed" : "Not Completed",
+      year: 2025, // 🔹 unique year for each card
     })
   );
 
@@ -135,21 +140,34 @@ const Page: React.FC = () => {
           Events edit place
         </div>
       </div>
+      <Tabs defaultValue="phase1" className="w-full mt-6">
+        <div className="flex justify-center">
+          <TabsList className="mb-4">
+            <TabsTrigger value="phase1">Phase 1</TabsTrigger>
+            <TabsTrigger value="phase2">Phase 2</TabsTrigger>
+          </TabsList>
+        </div>
 
-      <div className="flex justify-center items-center font-semibold text-3xl pt-4 ">
-        Event name
-      </div>
-      <div className="flex flex-wrap justify-center mt-4">
-        {courseData.map((item, index) => (
-          <CourseCard
-            key={index}
-            heading={item.heading}
-            course={item.course}
-            phase={item.phase}
-            status={item.status}
-          />
-        ))}
-      </div>
+        <TabsContent value="phase1">
+          <div className="flex flex-wrap justify-center mt-4">
+            {courseData
+              .filter((item) => item.phase === "Phase 1")
+              .map((item, index) => (
+                <CourseCard key={index} {...item} />
+              ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="phase2">
+          <div className="flex flex-wrap justify-center mt-4">
+            {courseData
+              .filter((item) => item.phase === "Phase 2")
+              .map((item, index) => (
+                <CourseCard key={index} {...item} />
+              ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

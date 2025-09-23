@@ -10,11 +10,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isLoggedin = useLoggedin();
 
   // if user is not logged
-  useEffect(() => {
+  /*  useEffect(() => {
     if (!isLoggedin.isLoggedin || isLoggedin.role == "user") {
       router.push("/");
     }
-  }, [isLoggedin, router]);
+  }, [isLoggedin, router]);*/
 
   return (
     <div className="w-screen h-screen flex">

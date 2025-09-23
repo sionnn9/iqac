@@ -165,9 +165,40 @@ const Page = () => {
               </SelectContent>
             </Select>
 
-            <div className="flex w-full my-5 max-w-sm items-center gap-2">
-              <Input type="text" placeholder="Mode of event" />
+            <Select>
+              <SelectTrigger className="w-full mt-5">
+                <SelectValue placeholder="Mode of event" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="event1">Online</SelectItem>
+                <SelectItem value="event2">Offline</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select>
+              <SelectTrigger className="w-full mt-5">
+                <SelectValue placeholder="Phase" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="event1">Phase 1</SelectItem>
+                <SelectItem value="event2">Phase 2</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <div className="flex w-full mt-5 max-w-sm items-center gap-2">
+              {/* Start Year */}
+              <Input
+                type="number"
+                placeholder="Start Year"
+                className="w-full"
+              />
+
+              <span className="text-gray-500">-</span>
+
+              {/* End Year */}
+              <Input type="number" placeholder="End Year" className="w-full" />
             </div>
+
             <div className="flex w-full mt-5 max-w-sm items-center gap-2">
               <Input type="number" placeholder="Number of guests" />
             </div>
