@@ -109,7 +109,6 @@ export default function Page() {
   const setBranches = UseBranches((state) => state.setBranches);
   const [newBranchName, setNewBranchName] = useState("");
   const [branchId, setBranchId] = useState("");
-  const [isOpen, setOpen] = useState(false);
 
   const GetBranches = async () => {
     try {
@@ -202,12 +201,11 @@ export default function Page() {
                 Open
               </Link>
 
-              <Dialog open={isOpen}>
+              <Dialog>
                 <DialogTrigger asChild>
                   <Button
                     onClick={(e) => {
                       setBranchId(data._id);
-                      setOpen(true);
                     }}
                     className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
                   >
@@ -236,11 +234,10 @@ export default function Page() {
                         <Button variant="outline">Cancel</Button>
                       </DialogClose>
                       <Button
-                        type="button"
+                        type="submit"
                         onClick={async (e) => {
                           await EditBranch();
                           await GetBranches();
-                          setOpen(false);
                         }}
                       >
                         Save changes
