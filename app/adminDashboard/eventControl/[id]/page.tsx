@@ -242,15 +242,14 @@ export default function Page() {
       </div>
 
       {/* Card Grid */}
-      {departmentstore.departments?.map((data, i) => {
-        return (
-          <div
-            key={i}
-            className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
-          >
+      {/* Card Grid */}
+      <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {departmentstore.departments?.map((data, i) => {
+          return (
             <div
+              key={i}
               className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
-                 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+          transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
             >
               {/* Red Strip */}
               <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
@@ -264,6 +263,7 @@ export default function Page() {
               <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
                 {data.name}
               </div>
+
               <div className="flex gap-2 mt-3">
                 <Link
                   href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
@@ -342,7 +342,6 @@ export default function Page() {
                       <DialogHeader className="text-center flex flex-col items-center">
                         <DialogTitle>Delete Department? </DialogTitle>
                       </DialogHeader>
-
                       <DialogFooter className="mt-4">
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
@@ -364,9 +363,10 @@ export default function Page() {
                 </Dialog>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+
       <AddDepartmentButton />
     </div>
   );

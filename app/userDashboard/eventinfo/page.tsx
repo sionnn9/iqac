@@ -97,8 +97,13 @@ const CourseCard: React.FC<CourseCardProps> = ({
               />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="file-1">File</Label>
-              <Input id="file-1" name="file" type="file" placeholder="File" />
+              <Label htmlFor="file-1">Upload File</Label>
+              <Input
+                id="file-1"
+                name="file"
+                type="file"
+                placeholder="Upload File"
+              />
             </div>
           </div>
           <DialogFooter className="mt-4">
@@ -123,7 +128,7 @@ const Page: React.FC = () => {
       course: `BCA`,
       phase: i % 2 === 0 ? "Phase 1" : "Phase 2",
       status: i % 2 === 0 ? "Completed" : "Not Completed",
-      year: i, // 🔹 unique year for each card
+      year: 2025, // 🔹 unique year for each card
     })
   );
 
