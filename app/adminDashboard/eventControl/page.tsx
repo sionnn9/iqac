@@ -207,11 +207,7 @@ export default function Page() {
         </div>
 
         {/* Card Grid */}
-<<<<<<< HEAD
         <div className="p-4 flex flex-wrap justify-center items-center">
-=======
-        <div className="p-4 flex flex-wrap justify-center items-start">
->>>>>>> 85b38bc1aa88b5e3759e2453c8d881e8a3544aad
           {Branches?.names?.map((data, i) => (
             <div
               key={"names" + i}
@@ -226,11 +222,7 @@ export default function Page() {
               </div>
 
               {/* College Name */}
-<<<<<<< HEAD
               <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-=======
-              <div className=" font-medium text-md sm:text-base md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words text-center">
->>>>>>> 85b38bc1aa88b5e3759e2453c8d881e8a3544aad
                 {data.name}
               </div>
 
@@ -306,12 +298,7 @@ export default function Page() {
                         setBranchId(data._id);
                       }}
                     >
-<<<<<<< HEAD
                       <Trash2 />
-=======
-                      Delete
-                      <Trash2 size={16} />
->>>>>>> 85b38bc1aa88b5e3759e2453c8d881e8a3544aad
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
