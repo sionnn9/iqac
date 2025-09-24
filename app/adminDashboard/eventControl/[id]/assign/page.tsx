@@ -2,6 +2,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+
+import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -9,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useParams, useSearchParams } from "next/navigation";
@@ -166,14 +170,44 @@ const Page = () => {
           <TabsTrigger value="event-guests" className="flex-1">
             Event Guests
           </TabsTrigger>
-          <TabsTrigger value="add-user" className="flex-1">
-            Add Admin/User
+          <TabsTrigger value="event-det" className="flex-1">
+            Enter event details
           </TabsTrigger>
         </TabsList>
 
         {/* Add User Tab */}
         <TabsContent value="add-user" className="mt-6 flex justify-center">
           <Adduserbutton />
+        </TabsContent>
+
+        {/* Event Details Tab */}
+        <TabsContent value="event-det" className="mt-6">
+          <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 border border-gray-200 dark:border-gray-700 space-y-4">
+            <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
+              Enter Event Details
+            </h2>
+
+            {/* Event Name */}
+            <div className="grid gap-2">
+              <Label htmlFor="eventName">Event Name</Label>
+              <Input
+                id="eventName"
+                name="eventName"
+                type="text"
+                placeholder="Enter event name"
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              variant="outline"
+              className="w-full cursor-pointer bg-black text-white ease-out mt-4"
+            >
+              Submit
+            </Button>
+          </div>
         </TabsContent>
 
         {/* Event Guests Tab */}
