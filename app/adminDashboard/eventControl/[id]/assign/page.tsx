@@ -71,16 +71,17 @@ const Adduserbutton = () => {
       <AlertDialogTrigger>
         <button className="m-5 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden  w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
           <Plus />
-          <h1 className="mt-9 font-bold">Add User</h1>
+          <h1 className="mt-9 font-bold">Add Admin/User</h1>
         </button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
+          <AlertDialogTitle>Gmail</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setemail(e.target.value)}
           placeholder="Gmail"
+          required
           className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
         />
 
@@ -90,6 +91,7 @@ const Adduserbutton = () => {
         <input
           onChange={(e) => setpassword(e.target.value)}
           placeholder="Password"
+          required
           className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
         />
 
@@ -134,10 +136,13 @@ const Page = () => {
       <Tabs defaultValue="add-user" className="w-full max-w-lg mx-auto mt-6">
         <TabsList className="w-full flex">
           <TabsTrigger value="add-user" className="flex-1">
-            Add User
+            Add Admin/User
           </TabsTrigger>
           <TabsTrigger value="event-guests" className="flex-1">
             Event Guests
+          </TabsTrigger>
+          <TabsTrigger value="add-user" className="flex-1">
+            Add Admin/User
           </TabsTrigger>
         </TabsList>
 
@@ -153,20 +158,34 @@ const Page = () => {
               Number of Guests
             </h2>
 
-            <Select>
-              <SelectTrigger className="w-full">
+            <Select required>
+              <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue placeholder="Events" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="event1">Event1</SelectItem>
+                <SelectItem value="event1 ">Event1</SelectItem>
                 <SelectItem value="event2">Event2</SelectItem>
                 <SelectItem value="event3">Event3</SelectItem>
                 <SelectItem value="event4">Event4</SelectItem>
               </SelectContent>
             </Select>
 
-            <Select>
-              <SelectTrigger className="w-full mt-5">
+            <Select required>
+              <SelectTrigger className="w-full cursor-pointer mt-5">
+                <SelectValue placeholder="Type of Event" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="event1">Guest talk</SelectItem>
+                <SelectItem value="event2">Seminar</SelectItem>
+                <SelectItem value="event3">Conference</SelectItem>
+                <SelectItem value="event4">Alumini talk</SelectItem>
+                <SelectItem value="event5">Webinar</SelectItem>
+                <SelectItem value="event6">FDP</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select required>
+              <SelectTrigger className="w-full mt-5 cursor-pointer">
                 <SelectValue placeholder="Mode of event" />
               </SelectTrigger>
               <SelectContent>
@@ -175,8 +194,8 @@ const Page = () => {
               </SelectContent>
             </Select>
 
-            <Select>
-              <SelectTrigger className="w-full mt-5">
+            <Select required>
+              <SelectTrigger className="w-full mt-5 cursor-pointer">
                 <SelectValue placeholder="Phase" />
               </SelectTrigger>
               <SelectContent>
@@ -185,24 +204,14 @@ const Page = () => {
               </SelectContent>
             </Select>
 
-            <div className="flex w-full mt-5 max-w-sm items-center gap-2">
-              {/* Start Year */}
-              <Input
-                type="number"
-                placeholder="Start Year"
-                className="w-full"
-              />
-
-              <span className="text-gray-500">-</span>
-
-              {/* End Year */}
-              <Input type="number" placeholder="End Year" className="w-full" />
+            <div className="flex w-full mt-5 max-w-sm items-center gap-2 cursor-pointer">
+              <Input type="number" placeholder="Number of guests" required />
             </div>
-
-            <div className="flex w-full mt-5 max-w-sm items-center gap-2">
-              <Input type="number" placeholder="Number of guests" />
-            </div>
-            <Button type="submit" variant="outline" className="w-full mt-6">
+            <Button
+              type="submit"
+              variant="outline"
+              className="w-full cursor-pointer bg-black text-white ease-out mt-6"
+            >
               Submit
             </Button>
           </div>

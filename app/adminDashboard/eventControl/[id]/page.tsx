@@ -146,6 +146,8 @@ export default function Page() {
   const param = useParams();
   // to get the department for edit
   const [editedName, setEditedName] = useState("");
+  const [startYear, setStartYear] = useState("");
+  const [endYear, setEndYear] = useState("");
   const [departmentId, setDepartmentId] = useState("");
 
   const getDepartment = async () => {
@@ -200,6 +202,11 @@ export default function Page() {
       console.log(e);
     }
   };
+
+  {
+    /*Semester year insertion request function */
+  }
+
   const DeleteDepartment = async () => {
     try {
       const responce = await fetch(
@@ -242,29 +249,30 @@ export default function Page() {
       </div>
 
       {/* Card Grid */}
-      {/* Card Grid */}
       <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {departmentstore.departments?.map((data, i) => {
           return (
             <div
               key={i}
-              className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
+              className="relative w-full h-[260px] aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
           transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
             >
               {/* Red Strip */}
               <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
-
               {/* Icon */}
-              <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
+              <div className="text-4xl pt-10 text-blue-700 p-4 rounded-full z-10">
                 🎓
               </div>
-
               {/* College Name */}
               <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
                 {data.name}
               </div>
+              {/*Semester year displaying part */}
+              <div className="text-center  text-md sm:text-md pt-3 z-10">
+                {/* {startYear} - {endYear} */}
+              </div>
 
-              <div className="flex gap-2 mt-3">
+              <div className="flex gap-2 mt-3 pb-10">
                 <Link
                   href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
                   className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
@@ -309,6 +317,31 @@ export default function Page() {
                           />
                         </div>
                       </div>
+                      {/*Semester year insertion part */}
+                      <div className="grid gap-4 pt-5">
+                        <div className="grid gap-3">
+                          <Label htmlFor="startYear">Start Date</Label>
+                          <Input
+                            id="startYear"
+                            name="startYear"
+                            type="date"
+                            placeholder="e.g. 2022"
+                            onChange={(e) => setStartYear(e.target.value)}
+                          />
+                        </div>
+
+                        <div className="grid gap-3">
+                          <Label htmlFor="endYear">End Date</Label>
+                          <Input
+                            id="endYear"
+                            name="endYear"
+                            type="date"
+                            placeholder="e.g. 2025"
+                            onChange={(e) => setEndYear(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
                       <DialogFooter className="mt-4">
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
