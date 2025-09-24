@@ -172,12 +172,12 @@ const Page = () => {
                 <SelectValue placeholder="Type of Event" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="event1">Guest talk</SelectItem>
-                <SelectItem value="event2">Seminar</SelectItem>
-                <SelectItem value="event3">Conference</SelectItem>
-                <SelectItem value="event4">Alumini talk</SelectItem>
-                <SelectItem value="event5">Webinar</SelectItem>
-                <SelectItem value="event6">FDP</SelectItem>
+                <SelectItem value="Guest talk">Guest talk</SelectItem>
+                <SelectItem value="Seminar">Seminar</SelectItem>
+                <SelectItem value="Conference">Conference</SelectItem>
+                <SelectItem value="Alumini talk">Alumini talk</SelectItem>
+                <SelectItem value="Webinar">Webinar</SelectItem>
+                <SelectItem value="FDP">FDP</SelectItem>
               </SelectContent>
             </Select>
 
@@ -186,8 +186,8 @@ const Page = () => {
                 <SelectValue placeholder="Mode of event" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="event1">Online</SelectItem>
-                <SelectItem value="event2">offline</SelectItem>
+                <SelectItem value="online">Online</SelectItem>
+                <SelectItem value="ofline">offline</SelectItem>
               </SelectContent>
             </Select>
 
@@ -196,8 +196,8 @@ const Page = () => {
                 <SelectValue placeholder="Phase" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="event1">Phase 1</SelectItem>
-                <SelectItem value="event2">Phase 2</SelectItem>
+                <SelectItem value="phase1">Phase 1</SelectItem>
+                <SelectItem value="phase2">Phase 2</SelectItem>
               </SelectContent>
             </Select>
 
