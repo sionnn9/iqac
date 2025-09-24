@@ -2,9 +2,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useEffect, useState, ChangeEvent } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-
-import { Label } from "@/components/ui/label";
-
 import {
   Select,
   SelectContent,
@@ -12,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useParams, useSearchParams } from "next/navigation";
@@ -40,26 +36,6 @@ const Adduserbutton = () => {
     setRole(e.target.value);
   };
 
-  const getUsers = async () => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_LINK}getAllUsersOfDepartment/${id}`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      }
-    );
-
-    if (!response.ok) {
-      const errmsg = await response.text();
-      alert(errmsg);
-      console.log(errmsg);
-    } else {
-      const data = await response.json();
-      console.log(data);
-    }
-  };
-
   const addUser = async () => {
     try {
       const response = await fetch(
@@ -78,22 +54,17 @@ const Adduserbutton = () => {
       );
 
       if (!response.ok) {
-        const errormsg = await response.text();
-        console.error("Error:");
-        alert(errormsg);
+        console.error("Error:", await response.text());
+        alert("Something went wrong");
         return;
       }
 
       const data = await response.json();
-      alert(data.message);
       console.log("User added:", data);
     } catch (e) {
       console.error("Request failed:", e);
     }
   };
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   return (
     <AlertDialog>
@@ -170,44 +141,11 @@ const Page = () => {
           <TabsTrigger value="event-guests" className="flex-1">
             Event Guests
           </TabsTrigger>
-          <TabsTrigger value="event-det" className="flex-1">
-            Enter event details
-          </TabsTrigger>
         </TabsList>
 
         {/* Add User Tab */}
         <TabsContent value="add-user" className="mt-6 flex justify-center">
           <Adduserbutton />
-        </TabsContent>
-
-        {/* Event Details Tab */}
-        <TabsContent value="event-det" className="mt-6">
-          <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 border border-gray-200 dark:border-gray-700 space-y-4">
-            <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-              Enter Event Details
-            </h2>
-
-            {/* Event Name */}
-            <div className="grid gap-2">
-              <Label htmlFor="eventName">Event Name</Label>
-              <Input
-                id="eventName"
-                name="eventName"
-                type="text"
-                placeholder="Enter event name"
-                required
-              />
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              variant="outline"
-              className="w-full cursor-pointer bg-black text-white ease-out mt-4"
-            >
-              Submit
-            </Button>
-          </div>
         </TabsContent>
 
         {/* Event Guests Tab */}

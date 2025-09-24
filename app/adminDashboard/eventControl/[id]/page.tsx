@@ -105,10 +105,18 @@ const AddDepartmentButton = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         {" "}
-        <button className="m-5 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden  w-56 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center   bg-white rounded-2xl shadow border">
-          <Plus />
-          <h1 className="mt-9 font-bold">Add Department</h1>
-        </button>
+        <div className="pl-20 w-full flex justify-center p-4">
+          <button
+            className="w-52 sm:w-56 h-52 sm:h-56 flex flex-col justify-center items-center 
+                     bg-white rounded-2xl shadow-lg border-t-8 border-black 
+                     transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+          >
+            <Plus size={32} />
+            <h1 className="mt-4 sm:mt-6 font-semibold text-center text-sm sm:text-base">
+              Add Department
+            </h1>
+          </button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -249,155 +257,140 @@ export default function Page() {
       </div>
 
       {/* Card Grid */}
-      <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {departmentstore.departments?.map((data, i) => {
-          return (
-            <div
-              key={i}
-              className="relative w-full h-[260px] aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
-          transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
-            >
-              {/* Red Strip */}
-              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
-              {/* Icon */}
-              <div className="text-4xl pt-10 text-blue-700 p-4 rounded-full z-10">
-                🎓
-              </div>
-              {/* College Name */}
-              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-                {data.name}
-              </div>
-              {/*Semester year displaying part */}
-              <div className="text-center  text-md sm:text-md pt-3 z-10">
-                {/* {startYear} - {endYear} */}
-              </div>
+      {/* Card Grid */}
+      <div className="p-4 flex flex-wrap justify-center items-start">
+        {departmentstore.departments?.map((data, i) => (
+          <div
+            key={i}
+            onClick={() =>
+              (window.location.href = `./${param.id}/assign?id=${data._id}&department=${data.name}`)
+            }
+            className="relative w-56 sm:w-64 md:w-72 lg:w-64 m-3 min-h-[240px] bg-white shadow-lg rounded-2xl flex flex-col items-center justify-center 
+         transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden"
+          >
+            {/* Red Strip */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-2xl" />
 
-              <div className="flex gap-2 mt-3 pb-10">
-                <Link
-                  href={`./${param.id}/assign?id=${data._id}&department=${data.name}`}
-                  className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
-                >
-                  Open
-                </Link>
-
-                {/* Edit Dialog */}
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
-                      onClick={() => {
-                        setDepartmentId(data._id);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        editDepartment();
-                      }}
-                    >
-                      <DialogHeader className="text-center flex flex-col items-center">
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>Update the name</DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4">
-                        <div key={"name"} className="grid gap-3">
-                          <Label htmlFor={"name"}>{"Name"}</Label>
-                          <Input
-                            id={"name"}
-                            name={"name"}
-                            type={"text"}
-                            placeholder={"Name"}
-                            onChange={(e) => {
-                              setEditedName(e.target.value);
-                            }}
-                          />
-                        </div>
-                      </div>
-                      {/*Semester year insertion part */}
-                      <div className="grid gap-4 pt-5">
-                        <div className="grid gap-3">
-                          <Label htmlFor="startYear">Start Date</Label>
-                          <Input
-                            id="startYear"
-                            name="startYear"
-                            type="date"
-                            placeholder="e.g. 2022"
-                            onChange={(e) => setStartYear(e.target.value)}
-                          />
-                        </div>
-
-                        <div className="grid gap-3">
-                          <Label htmlFor="endYear">End Date</Label>
-                          <Input
-                            id="endYear"
-                            name="endYear"
-                            type="date"
-                            placeholder="e.g. 2025"
-                            onChange={(e) => setEndYear(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <DialogFooter className="mt-4">
-                        <DialogClose asChild>
-                          <Button variant="outline">Cancel</Button>
-                        </DialogClose>
-                        <DialogClose asChild>
-                          <Button type="submit">Save changes</Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-
-                {/* Deleting Department */}
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      className="px-3 py-1 bg-red-900 text-white rounded-lg hover:bg-red-700 text-sm"
-                      onClick={() => {
-                        setDepartmentId(data._id);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                      }}
-                    >
-                      <DialogHeader className="text-center flex flex-col items-center">
-                        <DialogTitle>Delete Department? </DialogTitle>
-                      </DialogHeader>
-                      <DialogFooter className="mt-4">
-                        <DialogClose asChild>
-                          <Button variant="outline">Cancel</Button>
-                        </DialogClose>
-                        <DialogClose asChild>
-                          <Button
-                            type="submit"
-                            className="bg-red-800"
-                            onClick={() => {
-                              DeleteDepartment();
-                            }}
-                          >
-                            confirm
-                          </Button>
-                        </DialogClose>
-                      </DialogFooter>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </div>
+            {/* Icon */}
+            <div className="text-5xl text-blue-600 p-4 mt-4 rounded-full z-10">
+              🎓
             </div>
-          );
-        })}
+
+            {/* Department Name */}
+            <div className="text-center font-medium text-sm sm:text-base md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words">
+              {data.name}
+            </div>
+
+            {/* Semester Year */}
+            {/* <div className="text-center text-sm sm:text-sm md:text-md pt-1 z-10 text-gray-600">
+              {data.startYear && data.endYear
+              ? `${data.startYear} - ${data.endYear}`
+              : "No date set"}
+            </div> */}
+
+            {/* Edit & Delete Actions */}
+            <div className="flex gap-2 mt-auto mb-4 px-3 w-full justify-center">
+              {/* Edit Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      setDepartmentId(data._id);
+                    }}
+                    className="px-3 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600 text-sm"
+                  >
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent
+                  onClick={(e) => e.stopPropagation()}
+                  className="sm:max-w-[425px]"
+                >
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      editDepartment();
+                    }}
+                  >
+                    <DialogHeader className="text-center flex flex-col items-center">
+                      <DialogTitle>Edit Department</DialogTitle>
+                      <DialogDescription>Update the name</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4">
+                      <div className="grid gap-2">
+                        <Label>Name</Label>
+                        <Input
+                          placeholder="New department name"
+                          onChange={(e) => setEditedName(e.target.value)}
+                        />
+                      </div>
+                      <div className="grid gap-3 pt-5">
+                        <Label>Start Date</Label>
+                        <Input
+                          type="date"
+                          onChange={(e) => setStartYear(e.target.value)}
+                        />
+                        <Label>End Date</Label>
+                        <Input
+                          type="date"
+                          onChange={(e) => setEndYear(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <DialogFooter className="mt-4">
+                      <DialogClose asChild>
+                        <Button variant="outline">Cancel</Button>
+                      </DialogClose>
+                      <Button
+                        type="submit"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent card click
+                          editDepartment();
+                        }}
+                      >
+                        Save changes
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              {/* Delete Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent card click
+                      setDepartmentId(data._id);
+                    }}
+                    className="bg-red-700 text-white px-3 py-2 rounded-lg hover:bg-red-600"
+                  >
+                    Delete
+                  </Button>
+                </DialogTrigger>
+                <DialogContent onClick={(e) => e.stopPropagation()}>
+                  <DialogTitle>
+                    Are you sure you want to delete {data.name} Department?
+                  </DialogTitle>
+                  <DialogFooter>
+                    <DialogClose>
+                      <Button
+                        className="bg-red-800 px-4 py-2 rounded-lg text-white hover:bg-red-700"
+                        onClick={() => DeleteDepartment()}
+                      >
+                        Yes
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        ))}
       </div>
 
       <AddDepartmentButton />

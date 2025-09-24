@@ -81,10 +81,18 @@ const AddBranchButton = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center bg-white rounded-2xl shadow border">
-          <Plus />
-          <h1 className="mt-9 font-bold">Add Branch</h1>
-        </button>
+        <div className="w-full flex justify-center p-4">
+          <button
+            className="w-52 sm:w-56 h-52 sm:h-56 flex flex-col justify-center items-center 
+                     bg-white rounded-2xl shadow-lg border-t-8 border-black 
+                     transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+          >
+            <Plus size={32} />
+            <h1 className="mt-4  sm:mt-6 font-semibold text-center text-sm sm:text-base">
+              Add Branch
+            </h1>
+          </button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -205,59 +213,60 @@ export default function Page() {
         </div>
 
         {/* Card Grid */}
-        <div className="p-4 flex flex-wrap justify-center items-center">
+        {/* Card Grid */}
+        <div className="p-4 flex flex-wrap justify-center items-start">
           {Branches?.names?.map((data, i) => (
             <div
               key={"names" + i}
-              className="relative w-56 m-3 h-56 bg-white shadow-md rounded-xl flex flex-col items-center justify-center transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+              onClick={() =>
+                (window.location.href = `/adminDashboard/eventControl/${data._id}?branch=${data.name}`)
+              }
+              className="relative w-56 sm:w-64 md:w-72 lg:w-64 m-3 min-h-[240px] bg-white shadow-lg rounded-2xl flex flex-col items-center justify-center 
+         transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden"
             >
               {/* Red Strip */}
-              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-2xl" />
 
               {/* Icon */}
-              <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
+              <div className="text-5xl text-blue-600 p-4 mt-4 rounded-full z-10">
                 🎓
               </div>
 
               {/* College Name */}
-              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
+              <div className="text-center font-medium text-sm sm:text-base md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words text-center">
                 {data.name}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 mt-3">
-                <Link
-                  href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
-                  className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
-                >
-                  Open
-                </Link>
-
+              {/* Edit & Delete Actions */}
+              <div className="flex gap-2 mt-auto mb-4 px-3 w-full justify-center">
+                {/* Edit Dialog */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click
                         setBranchId(data._id);
                       }}
-                      className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
+                      className="px-3 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600 text-sm"
                     >
                       Edit
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
+                  <DialogContent
+                    onClick={(e) => e.stopPropagation()}
+                    className="sm:max-w-[425px]"
+                  >
                     <form>
                       <DialogHeader className="text-center flex flex-col items-center">
-                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogTitle>Edit Branch</DialogTitle>
                         <DialogDescription>Update the name</DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4">
-                        <div className="grid gap-3">
-                          <Label>{"Name"}</Label>
+                        <div className="grid gap-2">
+                          <Label>Name</Label>
                           <Input
-                            placeholder={"text"}
-                            onChange={(e) => {
-                              setNewBranchName(e.target.value);
-                            }}
+                            placeholder="New branch name"
+                            onChange={(e) => setNewBranchName(e.target.value)}
                           />
                         </div>
                       </div>
@@ -265,10 +274,10 @@ export default function Page() {
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-
                         <Button
                           type="submit"
                           onClick={async (e) => {
+                            e.stopPropagation(); // Extra safety
                             await EditBranch();
                             await GetBranches();
                           }}
@@ -280,28 +289,28 @@ export default function Page() {
                   </DialogContent>
                 </Dialog>
 
+                {/* Delete Dialog */}
                 <Dialog>
-                  <DialogTrigger>
+                  <DialogTrigger asChild>
                     <Button
-                      className="bg-black"
                       onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click
                         setBranchId(data._id);
                       }}
+                      className="bg-red-700 text-white px-3 py-2 rounded-lg hover:bg-red-600"
                     >
-                      <Trash2 />
+                      <Trash2 size={16} />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent onClick={(e) => e.stopPropagation()}>
                     <DialogTitle>
-                      Are you sure you want to delete {data.name} Branch
+                      Are you sure you want to delete {data.name} Branch?
                     </DialogTitle>
                     <DialogFooter>
                       <DialogClose>
                         <Button
-                          className="bg-red-800"
-                          onClick={() => {
-                            DeleteBranch();
-                          }}
+                          className="bg-red-800 px-4 py-2 rounded-lg text-white hover:bg-red-700"
+                          onClick={() => DeleteBranch()}
                         >
                           Yes
                         </Button>
