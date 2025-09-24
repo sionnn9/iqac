@@ -213,7 +213,7 @@ export default function Page() {
         </div>
 
         {/* Card Grid */}
-        <div className="p-4 flex flex-wrap justify-center items-start">
+        <div className="p-4 flex flex-wrap justify-center items-center">
           {Branches?.names?.map((data, i) => (
             <div
               key={"names" + i}
@@ -232,7 +232,7 @@ export default function Page() {
               </div>
 
               {/* College Name */}
-              <div className=" font-medium text-md sm:text-base md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words text-center">
+              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
                 {data.name}
               </div>
 
@@ -298,8 +298,7 @@ export default function Page() {
                       }}
                       className="bg-red-700 text-white px-3 py-2 rounded-lg hover:bg-red-600"
                     >
-                      Delete
-                      <Trash2 size={16} />
+                      <Trash2 />
                     </Button>
                   </DialogTrigger>
                   <DialogContent onClick={(e) => e.stopPropagation()}>
