@@ -201,6 +201,26 @@ const Page = () => {
               </SelectContent>
             </Select>
 
+            <div className="flex w-full mt-5 max-w-sm items-center gap-2">
+              {/* Start Year */}
+              <Input
+                type="number"
+                placeholder="Start Year"
+                className="w-full cursor-pointer"
+                required
+              />
+
+              <span className="text-gray-500">-</span>
+
+              {/* End Year */}
+              <Input
+                type="number"
+                required
+                placeholder="End Year"
+                className="w-full cursor-pointer"
+              />
+            </div>
+
             <div className="flex w-full mt-5 max-w-sm items-center gap-2 cursor-pointer">
               <Input type="number" placeholder="Number of guests" required />
             </div>
