@@ -76,7 +76,7 @@ const Adduserbutton = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Gmail</AlertDialogTitle>
+          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setemail(e.target.value)}
@@ -187,7 +187,7 @@ const Page = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="event1">Online</SelectItem>
-                <SelectItem value="event2">Offline</SelectItem>
+                <SelectItem value="event2">offline</SelectItem>
               </SelectContent>
             </Select>
 
