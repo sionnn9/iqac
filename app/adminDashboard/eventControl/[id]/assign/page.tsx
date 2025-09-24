@@ -36,6 +36,26 @@ const Adduserbutton = () => {
     setRole(e.target.value);
   };
 
+  const getUsers = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_LINK}getAllUsersOfDepartment/${id}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      const errmsg = await response.text();
+      alert(errmsg);
+      console.log(errmsg);
+    } else {
+      const data = await response.json();
+      console.log(data);
+    }
+  };
+
   const addUser = async () => {
     try {
       const response = await fetch(
@@ -54,17 +74,22 @@ const Adduserbutton = () => {
       );
 
       if (!response.ok) {
-        console.error("Error:", await response.text());
-        alert("Something went wrong");
+        const errormsg = await response.text();
+        console.error("Error:");
+        alert(errormsg);
         return;
       }
 
       const data = await response.json();
+      alert(data.message);
       console.log("User added:", data);
     } catch (e) {
       console.error("Request failed:", e);
     }
   };
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <AlertDialog>

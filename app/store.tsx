@@ -42,12 +42,7 @@ interface Branches {
 }
 
 export const UseBranches = create<Branches>((set) => ({
-  names: [
-    {
-      _id: "",
-      name: "Fetching Data",
-    },
-  ],
+  names: [],
   setBranches: (data) => set({ names: data }),
 }));
 
