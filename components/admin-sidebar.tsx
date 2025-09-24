@@ -22,7 +22,7 @@ const data = {
 
   activities: [
     {
-      name: "Events",
+      name: "Branches",
       url: "/adminDashboard/eventControl",
       icon: Frame,
     },
