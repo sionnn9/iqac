@@ -23,12 +23,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { UseBranches } from "@/app/store";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const AddBranchButton = () => {
   const [name, setname] = useState("");
@@ -158,100 +159,177 @@ export default function Page() {
       console.log(e);
     }
   };
+
+  const DeleteBranch = async () => {
+    if (newBranchName.trim()[0] == "") {
+      alert("No content added");
+      return;
+    }
+    try {
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}deleteBranch/${branchId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      if (!responce.ok) {
+        const responceerror = await responce.text();
+        alert(responceerror);
+        return;
+      }
+      const data = await responce.json();
+      console.log(data);
+      GetBranches();
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     GetBranches();
+    console.log(Branches);
   }, []);
 
-  return (
-    <div className="w-full min-h-screen bg-gray-100">
-      {/* Top Bar */}
-      <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
-        <SidebarTrigger className="text-white mr-4" />
-        <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-          Collegess
-        </h1>
-      </div>
+  if (Branches?.names.length > 0) {
+    return (
+      <div className="w-full min-h-screen bg-gray-100">
+        {/* Top Bar */}
+        <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
+          <SidebarTrigger className="text-white mr-4" />
+          <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
+            Collegess
+          </h1>
+        </div>
 
-      {/* Card Grid */}
-      <div className="p-4 flex flex-wrap justify-center items-center">
-        {Branches?.names?.map((data, i) => (
-          <div
-            key={"names" + i}
-            className="relative w-56 m-3 h-56 bg-white shadow-md rounded-xl flex flex-col items-center justify-center transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
-          >
-            {/* Red Strip */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+        {/* Card Grid */}
+        <div className="p-4 flex flex-wrap justify-center items-center">
+          {Branches?.names?.map((data, i) => (
+            <div
+              key={"names" + i}
+              className="relative w-56 m-3 h-56 bg-white shadow-md rounded-xl flex flex-col items-center justify-center transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+            >
+              {/* Red Strip */}
+              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
 
-            {/* Icon */}
-            <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
-              🎓
-            </div>
+              {/* Icon */}
+              <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
+                🎓
+              </div>
 
-            {/* College Name */}
-            <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-              {data.name}
-            </div>
+              {/* College Name */}
+              <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
+                {data.name}
+              </div>
 
-            {/* Actions */}
-            <div className="flex gap-2 mt-3">
-              <Link
-                href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
-                className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
-              >
-                Open
-              </Link>
+              {/* Actions */}
+              <div className="flex gap-2 mt-3">
+                <Link
+                  href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
+                  className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
+                >
+                  Open
+                </Link>
 
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    onClick={(e) => {
-                      setBranchId(data._id);
-                    }}
-                    className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
-                  >
-                    Edit
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <form>
-                    <DialogHeader className="text-center flex flex-col items-center">
-                      <DialogTitle>Edit profile</DialogTitle>
-                      <DialogDescription>Update the name</DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4">
-                      <div className="grid gap-3">
-                        <Label>{"Name"}</Label>
-                        <Input
-                          placeholder={"text"}
-                          onChange={(e) => {
-                            setNewBranchName(e.target.value);
-                          }}
-                        />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      onClick={(e) => {
+                        setBranchId(data._id);
+                      }}
+                      className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
+                    >
+                      Edit
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <form>
+                      <DialogHeader className="text-center flex flex-col items-center">
+                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogDescription>Update the name</DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4">
+                        <div className="grid gap-3">
+                          <Label>{"Name"}</Label>
+                          <Input
+                            placeholder={"text"}
+                            onChange={(e) => {
+                              setNewBranchName(e.target.value);
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <DialogFooter className="mt-4">
+                      <DialogFooter className="mt-4">
+                        <DialogClose asChild>
+                          <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+
+                        <Button
+                          type="submit"
+                          onClick={async (e) => {
+                            await EditBranch();
+                            await GetBranches();
+                          }}
+                        >
+                          Save changes
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog>
+                  <DialogTrigger>
+                    <Button
+                      className="bg-black"
+                      onClick={(e) => {
+                        setBranchId(data._id);
+                      }}
+                    >
+                      <Trash2 />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogTitle>
+                      Are you sure you want to delete {data.name} Branch
+                    </DialogTitle>
+                    <DialogFooter>
+                      <DialogClose>
+                        <Button
+                          className="bg-red-800"
+                          onClick={() => {
+                            DeleteBranch();
+                          }}
+                        >
+                          Yes
+                        </Button>
+                      </DialogClose>
                       <DialogClose asChild>
                         <Button variant="outline">Cancel</Button>
                       </DialogClose>
-
-                      <Button
-                        type="submit"
-                        onClick={async (e) => {
-                          await EditBranch();
-                          await GetBranches();
-                        }}
-                      >
-                        Save changes
-                      </Button>
                     </DialogFooter>
-                  </form>
-                </DialogContent>
-              </Dialog>
+                  </DialogContent>
+                </Dialog>
+              </div>
             </div>
-          </div>
-        ))}
-        <AddBranchButton />
+          ))}
+          <AddBranchButton />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="w-full h-full">
+        <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
+          <SidebarTrigger className="text-white mr-4" />
+          <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
+            Collegess
+          </h1>
+        </div>
+        <Skeleton className="w-full h-full m-7 rounded-xl" />
+      </div>
+    );
+  }
 }
