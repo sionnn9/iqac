@@ -77,7 +77,7 @@ const Adduserbutton = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Gmail</AlertDialogTitle>
+          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setemail(e.target.value)}

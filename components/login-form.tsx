@@ -45,12 +45,12 @@ export function LoginForm({
       if (data?.user?.role == "admin") {
         isLoggedin.setLoggedIn();
         isLoggedin.setRole("admin");
-        router.push("/adminDashboard");
+        router.push("/adminDashboard/eventControl");
       }
       if (data?.user?.role == "user") {
         isLoggedin.setLoggedIn();
         isLoggedin.setRole("user");
-        router.push("/userDashboard");
+        router.push("/userDashboard/update");
       }
     } catch (e) {
       console.log("error:", e);

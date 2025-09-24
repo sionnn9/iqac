@@ -59,7 +59,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {"IQAC"}
               </SidebarGroupLabel>
               <SidebarGroupLabel className="truncate text-xs mt-0">
-                {"St Aloysius College"}
+                {"St Aloysius Deemed to be University "}
               </SidebarGroupLabel>
             </div>
           </div>
