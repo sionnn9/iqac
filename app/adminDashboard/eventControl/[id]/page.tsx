@@ -23,6 +23,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
+import { Trash2 } from "lucide-react";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
@@ -257,7 +258,6 @@ export default function Page() {
       </div>
 
       {/* Card Grid */}
-      {/* Card Grid */}
       <div className="p-4 flex flex-wrap justify-center items-start">
         {departmentstore.departments?.map((data, i) => (
           <div
@@ -277,7 +277,7 @@ export default function Page() {
             </div>
 
             {/* Department Name */}
-            <div className="text-center font-medium text-sm sm:text-base md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words">
+            <div className="text-center font-medium text-lg sm:text-lg md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words">
               {data.name}
             </div>
 
@@ -367,6 +367,7 @@ export default function Page() {
                     className="bg-red-700 text-white px-3 py-2 rounded-lg hover:bg-red-600"
                   >
                     Delete
+                    <Trash2 size={16} />
                   </Button>
                 </DialogTrigger>
                 <DialogContent onClick={(e) => e.stopPropagation()}>
