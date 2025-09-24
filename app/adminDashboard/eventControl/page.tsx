@@ -109,7 +109,7 @@ export default function Page() {
   const router = useRouter();
   const setBranches = UseBranches((state) => state.setBranches);
   const [newBranchName, setNewBranchName] = useState("");
-  const [branchId, setBranchId] = useState("");
+  const { branchId, setBranchId } = UseBranches();
 
   const GetBranches = async () => {
     try {
@@ -227,6 +227,9 @@ export default function Page() {
               {/* Actions */}
               <div className="flex gap-2 mt-3">
                 <Link
+                  onClick={() => {
+                    setBranchId(data._id);
+                  }}
                   href={`/adminDashboard/eventControl/${data._id}?branch=${data.name}`}
                   className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
                 >

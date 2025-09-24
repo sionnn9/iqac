@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { UseBranches } from "@/app/store";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -35,6 +36,7 @@ const Adduserbutton = () => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [role, setRole] = useState("user");
+  const { branchId, setBranchId } = UseBranches();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value);
@@ -148,6 +150,21 @@ const Adduserbutton = () => {
 
 // ---------------- Main Page Component ----------------
 const Page = () => {
+  /* mode,
+      department,
+      type,
+      academic_year,
+      phase,
+      start_date,
+      end_date,
+      branchId,
+      participants,*/
+  const [mode, setmode] = useState();
+  const [type, settype] = useState();
+  const [academic_year, setacademic_year] = useState();
+  const [start_date, setstart_date] = useState();
+  const [end_date, setEnd_date] = useState();
+  const [participents, setparticipents] = useState();
   const searchparam = useSearchParams();
   const department = searchparam.get("department");
 

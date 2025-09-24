@@ -36,14 +36,19 @@ type branchesresponce = {
   _id: string;
   name: string;
 };
+
 interface Branches {
   names: branchesresponce[];
+  branchId: string | null;
   setBranches: (data: branchesresponce[]) => void;
+  setBranchId: (id: string | null) => void;
 }
 
 export const UseBranches = create<Branches>((set) => ({
   names: [],
+  branchId: null,
   setBranches: (data) => set({ names: data }),
+  setBranchId: (id) => set({ branchId: id }),
 }));
 
 // department thing//
