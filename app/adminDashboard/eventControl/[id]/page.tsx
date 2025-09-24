@@ -105,7 +105,7 @@ const AddDepartmentButton = () => {
     <AlertDialog>
       <AlertDialogTrigger>
         {" "}
-        <div className="pl-20 w-full flex justify-center p-4">
+        <div className=" w-full flex justify-center p-4">
           <button
             className="w-52 sm:w-56 h-52 sm:h-56 flex flex-col justify-center items-center 
                      bg-white rounded-2xl shadow-lg border-t-8 border-black 
@@ -391,9 +391,8 @@ export default function Page() {
             </div>
           </div>
         ))}
+        <AddDepartmentButton />
       </div>
-
-      <AddDepartmentButton />
     </div>
   );
 }
