@@ -23,6 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { UseBranches } from "@/app/store";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -76,7 +77,7 @@ const Adduserbutton = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
+          <AlertDialogTitle>Gmail</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setemail(e.target.value)}
@@ -119,8 +120,73 @@ const Adduserbutton = () => {
 
 // ---------------- Main Page Component ----------------
 const Page = () => {
+  /* mode,
+      department,
+      type,
+      academic_year,
+      phase,
+      start_date,
+      end_date,
+      branchId,
+      participants,*/
+  const [mode, setmode] = useState("");
+
+  const [type, settype] = useState("");
+  const [academic_year, setacademic_year] = useState({ start: "", end: "" });
+  const [phase, setphase] = useState("");
+  const [start_date, setstart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
+  const [participants, setparticipants] = useState("");
   const searchparam = useSearchParams();
   const department = searchparam.get("department");
+  const departmentId = searchparam.get("id");
+  const branchId = UseBranches((state) => state.branchId);
+  useEffect(() => {
+    console.log("Current branchId:", branchId);
+  }, [branchId]);
+  // Assume you already stored branchId in Zustand store
+
+  const handleSubmit = async () => {
+    console.log(branchId);
+    const payload = {
+      mode,
+      department: departmentId, // must match backend
+      type,
+      academic_year: `2025-2026`,
+      phase,
+      start_date,
+      end_date,
+      branchId: "68d37c98242d51d89f71554b", // from Zustand
+      participants,
+    };
+
+    console.log("Submitting Event:", payload);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/assignEvent`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await res.json();
+      if (res.ok) {
+        console.log("Event Assigned Successfully:", data);
+        alert("event added Succussfully");
+      } else {
+        console.error("Error Assigning Event:", data.message);
+      }
+    } catch (err) {
+      console.error("Request Failed:", err);
+    }
+  };
+
+  useEffect(() => {
+    console.log(branchId);
+  });
 
   return (
     <div className="w-full h-auto">
@@ -155,77 +221,100 @@ const Page = () => {
               Number of Guests
             </h2>
 
-            <Select required>
+            {/* Event Name */}
+            <Select onValueChange={settype} required>
               <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue placeholder="Events" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="event1 ">Event1</SelectItem>
+                <SelectItem value="event1">Event1</SelectItem>
                 <SelectItem value="event2">Event2</SelectItem>
                 <SelectItem value="event3">Event3</SelectItem>
                 <SelectItem value="event4">Event4</SelectItem>
               </SelectContent>
             </Select>
 
-            <Select required>
+            {/* Type of Event */}
+            <Select onValueChange={settype} required>
               <SelectTrigger className="w-full cursor-pointer mt-5">
                 <SelectValue placeholder="Type of Event" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Guest talk">Guest talk</SelectItem>
-                <SelectItem value="Seminar">Seminar</SelectItem>
-                <SelectItem value="Conference">Conference</SelectItem>
-                <SelectItem value="Alumini talk">Alumini talk</SelectItem>
-                <SelectItem value="Webinar">Webinar</SelectItem>
-                <SelectItem value="FDP">FDP</SelectItem>
+                <SelectItem value="seminar">Seminar</SelectItem>
+                <SelectItem value="workshop">Workshop</SelectItem>
+                <SelectItem value="guest lecture">Guest Lecture</SelectItem>
+                <SelectItem value="competition">Competition</SelectItem>
               </SelectContent>
             </Select>
 
-            <Select required>
+            {/* Mode of Event */}
+            <Select onValueChange={setmode} required>
               <SelectTrigger className="w-full mt-5 cursor-pointer">
                 <SelectValue placeholder="Mode of event" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="online">Online</SelectItem>
-                <SelectItem value="ofline">offline</SelectItem>
+                <SelectItem value="offline">Offline</SelectItem>
               </SelectContent>
             </Select>
 
-            <Select required>
+            {/* Phase */}
+            <Select onValueChange={setphase} required>
               <SelectTrigger className="w-full mt-5 cursor-pointer">
                 <SelectValue placeholder="Phase" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="phase1">Phase 1</SelectItem>
-                <SelectItem value="phase2">Phase 2</SelectItem>
+                <SelectItem value="1">Phase 1</SelectItem>
+                <SelectItem value="2">Phase 2</SelectItem>
               </SelectContent>
             </Select>
 
             <div className="flex w-full mt-5 max-w-sm items-center gap-2">
               {/* Start Year */}
               <Input
-                type="number"
+                type="date"
                 placeholder="Start Year"
                 className="w-full cursor-pointer"
                 required
+                onChange={(e) => {
+                  setacademic_year((prev) => ({
+                    ...prev,
+                    start: e.target.value,
+                  }));
+                  setstart_date(e.target.value); // keep if backend needs it separately
+                }}
               />
 
               <span className="text-gray-500">-</span>
 
               {/* End Year */}
               <Input
-                type="number"
+                type="date"
                 required
                 placeholder="End Year"
                 className="w-full cursor-pointer"
+                onChange={(e) => {
+                  setacademic_year((prev) => ({
+                    ...prev,
+                    end: e.target.value,
+                  }));
+                  setEnd_date(e.target.value); // keep if backend needs it separately
+                }}
               />
             </div>
 
+            {/* Participants */}
             <div className="flex w-full mt-5 max-w-sm items-center gap-2 cursor-pointer">
-              <Input type="number" placeholder="Number of guests" required />
+              <Input
+                type="number"
+                placeholder="Number of guests"
+                required
+                onChange={(e) => setparticipants(e.target.value)}
+              />
             </div>
             <Button
-              type="submit"
+              onClick={handleSubmit}
+              type="button"
               variant="outline"
               className="w-full cursor-pointer bg-black text-white ease-out mt-6"
             >
