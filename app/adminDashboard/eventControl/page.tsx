@@ -89,18 +89,18 @@ const AddBranchButton = () => {
           >
             <Plus size={32} />
             <h1 className="mt-4  sm:mt-6 font-semibold text-center text-sm sm:text-base">
-              Add Branch
+              Add School
             </h1>
           </button>
         </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Name Of The Branch</AlertDialogTitle>
+          <AlertDialogTitle>Name Of The School</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setname(e.target.value)}
-          placeholder="Department"
+          placeholder="School Name"
           className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
         />
         <AlertDialogFooter>
@@ -208,7 +208,7 @@ export default function Page() {
         <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
           <SidebarTrigger className="text-white mr-4" />
           <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-            Collegess
+            Schools
           </h1>
         </div>
 
@@ -257,7 +257,7 @@ export default function Page() {
                   >
                     <form>
                       <DialogHeader className="text-center flex flex-col items-center">
-                        <DialogTitle>Edit Branch</DialogTitle>
+                        <DialogTitle>Edit School</DialogTitle>
                         <DialogDescription>Update the name</DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4">
@@ -303,7 +303,7 @@ export default function Page() {
                   </DialogTrigger>
                   <DialogContent onClick={(e) => e.stopPropagation()}>
                     <DialogTitle>
-                      Are you sure you want to delete {data.name} Branch?
+                      Are you sure you want to delete {data.name} School?
                     </DialogTitle>
                     <DialogFooter>
                       <DialogClose>
