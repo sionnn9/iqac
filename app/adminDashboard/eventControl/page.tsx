@@ -81,18 +81,26 @@ const AddBranchButton = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <button className="w-56 m-5 border-t-8 border-black border-l-0 border-r-0 border-b-0 h-56 flex flex-col justify-center items-center bg-white rounded-2xl shadow border">
-          <Plus />
-          <h1 className="mt-9 font-bold">Add Branch</h1>
-        </button>
+        <div className="w-full flex justify-center p-4">
+          <button
+            className="w-52 sm:w-56 h-52 sm:h-56 flex flex-col justify-center items-center 
+                     bg-white rounded-2xl shadow-lg border-t-8 border-black 
+                     transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+          >
+            <Plus size={32} />
+            <h1 className="mt-4  sm:mt-6 font-semibold text-center text-sm sm:text-base">
+              Add School
+            </h1>
+          </button>
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Name Of The Branch</AlertDialogTitle>
+          <AlertDialogTitle>Name Of The School</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setname(e.target.value)}
-          placeholder="Department"
+          placeholder="School Name"
           className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
         />
         <AlertDialogFooter>
@@ -109,8 +117,7 @@ export default function Page() {
   const router = useRouter();
   const setBranches = UseBranches((state) => state.setBranches);
   const [newBranchName, setNewBranchName] = useState("");
-  const { branchId } = UseBranches();
-  const setBranchId = UseBranches((state) => state.setBranchId);
+  const [branchId, setBranchId] = useState("");
 
   const GetBranches = async () => {
     try {
@@ -192,8 +199,7 @@ export default function Page() {
   useEffect(() => {
     GetBranches();
     console.log(Branches);
-    console.log("f:", branchId);
-  }, [branchId]);
+  }, []);
 
   if (Branches?.names.length > 0) {
     return (
@@ -202,7 +208,7 @@ export default function Page() {
         <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
           <SidebarTrigger className="text-white mr-4" />
           <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-            Collegess
+            Schools
           </h1>
         </div>
 
@@ -211,13 +217,17 @@ export default function Page() {
           {Branches?.names?.map((data, i) => (
             <div
               key={"names" + i}
-              className="relative w-56 m-3 h-56 bg-white shadow-md rounded-xl flex flex-col items-center justify-center transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+              onClick={() =>
+                (window.location.href = `/adminDashboard/eventControl/${data._id}?branch=${data.name}`)
+              }
+              className="relative w-56 sm:w-64 md:w-72 lg:w-64 m-3 min-h-[240px] bg-white shadow-lg rounded-2xl flex flex-col items-center justify-center 
+         transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl cursor-pointer overflow-hidden"
             >
               {/* Red Strip */}
-              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-xl" />
+              <div className="absolute top-0 left-0 w-full h-2 bg-black rounded-t-2xl" />
 
               {/* Icon */}
-              <div className="text-4xl text-blue-700 p-4 rounded-full z-10">
+              <div className="text-5xl text-blue-600 p-4 mt-4 rounded-full z-10">
                 🎓
               </div>
 
@@ -226,48 +236,36 @@ export default function Page() {
                 {data.name}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 mt-3">
-                <Button
-                  onClick={() => {
-                    setBranchId(data._id);
-                    console.log("f:", branchId);
-                    router.push(
-                      `/adminDashboard/eventControl/${data._id}?branch=${data.name}`
-                    );
-                  }}
-                  className="px-2 py-1.5 bg-gray-800 font-bold text-white rounded-lg hover:bg-green-700 text-sm"
-                >
-                  Open
-                </Button>
-
+              {/* Edit & Delete Actions */}
+              <div className="flex gap-2 mt-auto mb-4 px-3 w-full justify-center">
+                {/* Edit Dialog */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click
                         setBranchId(data._id);
-
-                        console.log("f:", branchId);
                       }}
-                      className="px-3 py-1 bg-blue-900 text-white rounded-lg hover:bg-blue-700 text-sm"
+                      className="px-3 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-600 text-sm"
                     >
                       Edit
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
+                  <DialogContent
+                    onClick={(e) => e.stopPropagation()}
+                    className="sm:max-w-[425px]"
+                  >
                     <form>
                       <DialogHeader className="text-center flex flex-col items-center">
-                        <DialogTitle>Edit profile</DialogTitle>
+                        <DialogTitle>Edit School</DialogTitle>
                         <DialogDescription>Update the name</DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4">
-                        <div className="grid gap-3">
-                          <Label>{"Name"}</Label>
+                        <div className="grid gap-2">
+                          <Label>Name</Label>
                           <Input
-                            placeholder={"text"}
-                            onChange={(e) => {
-                              setNewBranchName(e.target.value);
-                            }}
+                            placeholder="New branch name"
+                            onChange={(e) => setNewBranchName(e.target.value)}
                           />
                         </div>
                       </div>
@@ -275,10 +273,10 @@ export default function Page() {
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-
                         <Button
                           type="submit"
                           onClick={async (e) => {
+                            e.stopPropagation(); // Extra safety
                             await EditBranch();
                             await GetBranches();
                           }}
@@ -290,28 +288,28 @@ export default function Page() {
                   </DialogContent>
                 </Dialog>
 
+                {/* Delete Dialog */}
                 <Dialog>
-                  <DialogTrigger>
+                  <DialogTrigger asChild>
                     <Button
-                      className="bg-black"
                       onClick={(e) => {
+                        e.stopPropagation(); // Prevent card click
                         setBranchId(data._id);
                       }}
+                      className="bg-red-700 text-white px-3 py-2 rounded-lg hover:bg-red-600"
                     >
                       <Trash2 />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent onClick={(e) => e.stopPropagation()}>
                     <DialogTitle>
-                      Are you sure you want to delete {data.name} Branch
+                      Are you sure you want to delete {data.name} School?
                     </DialogTitle>
                     <DialogFooter>
                       <DialogClose>
                         <Button
-                          className="bg-red-800"
-                          onClick={() => {
-                            DeleteBranch();
-                          }}
+                          className="bg-red-800 px-4 py-2 rounded-lg text-white hover:bg-red-700"
+                          onClick={() => DeleteBranch()}
                         >
                           Yes
                         </Button>

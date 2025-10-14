@@ -77,7 +77,7 @@ const Adduserbutton = () => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Gmail of the User</AlertDialogTitle>
+          <AlertDialogTitle>Gmail</AlertDialogTitle>
         </AlertDialogHeader>
         <input
           onChange={(e) => setemail(e.target.value)}
@@ -130,6 +130,7 @@ const Page = () => {
       branchId,
       participants,*/
   const [mode, setmode] = useState("");
+
   const [type, settype] = useState("");
   const [academic_year, setacademic_year] = useState({ start: "", end: "" });
   const [phase, setphase] = useState("");
@@ -275,6 +276,7 @@ const Page = () => {
             </Select>
 
             <div className="flex w-full mt-5 max-w-sm items-center gap-2">
+              {/* Start Year */}
               <Input
                 type="date"
                 placeholder="Start Year"
@@ -291,6 +293,7 @@ const Page = () => {
 
               <span className="text-gray-500">-</span>
 
+              {/* End Year */}
               <Input
                 type="date"
                 required

@@ -29,7 +29,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Plus } from "lucide-react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";
-import { DepartmentStore, UseBranches } from "@/app/store";
+import { DepartmentStore } from "@/app/store";
 
 const AddDepartmentButton = () => {
   const Branch_id = useParams();
