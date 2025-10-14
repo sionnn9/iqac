@@ -23,7 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { UseBranches } from "@/app/store";
+import { UseBranches, useBranchStore } from "@/app/store";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -139,23 +139,29 @@ const Page = () => {
   const searchparam = useSearchParams();
   const department = searchparam.get("department");
   const departmentId = searchparam.get("id");
-  const branchId = UseBranches((state) => state.branchId);
+  const [branchId, setBranchId] = useState<string>("");
+
+  const { currentBranchId, setCurrentBranchId } = useBranchStore();
+  const [url, setUrl] = useState<string>("");
+
   useEffect(() => {
-    console.log("Current branchId:", branchId);
-  }, [branchId]);
+    setUrl(window.location.href);
+    console.log(url);
+    setBranchId(url.split("/")[5]);
+  }, [url]);
+
   // Assume you already stored branchId in Zustand store
 
   const handleSubmit = async () => {
-    console.log(branchId);
     const payload = {
       mode,
       department: departmentId, // must match backend
-      type,
+      type: type,
       academic_year: `2025-2026`,
-      phase,
-      start_date,
-      end_date,
-      branchId: "68d37c98242d51d89f71554b", // from Zustand
+      phase: phase,
+      start_date: start_date,
+      end_date: end_date,
+      branchId: branchId, // from Zustand
       participants,
     };
 

@@ -65,3 +65,17 @@ export const DepartmentStore = create<{
   departments: [],
   setDepartments: (data) => set({ departments: data }),
 }));
+
+// to set current branch
+
+interface BranchState {
+  currentBranchId: string | null;
+  setCurrentBranchId: (id: string) => void;
+  clearBranchId: () => void;
+}
+
+export const useBranchStore = create<BranchState>((set) => ({
+  currentBranchId: null,
+  setCurrentBranchId: (id) => set({ currentBranchId: id }),
+  clearBranchId: () => set({ currentBranchId: null }),
+}));

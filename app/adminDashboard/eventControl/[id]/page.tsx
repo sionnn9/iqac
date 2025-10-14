@@ -244,6 +244,7 @@ export default function Page() {
   useEffect(() => {
     getDepartment();
     setisClient(true);
+    console.log(searchparam);
   }, []);
 
   if (!isClient) return <h1>Loading</h1>;
