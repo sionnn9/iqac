@@ -33,84 +33,157 @@ const CourseCard: React.FC<CourseCardProps> = ({
 }) => {
   return (
     <Dialog>
-      <div className="bg-white rounded-2xl shadow-md p-6 m-4 w-full max-w-md">
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">{heading}</h2>
-        <div className="text-gray-700 mb-1">
-          <span className="font-medium">Course:</span> {course}
+      <div className="bg-card rounded-lg shadow-md p-6 m-4 w-full max-w-sm border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent rounded-t-lg" />
+
+        <h2 className="text-lg font-bold text-card-foreground mb-4 mt-2">
+          {heading}
+        </h2>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Course
+            </span>
+            <span className="text-card-foreground font-semibold">{course}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Phase
+            </span>
+            <span className="text-card-foreground font-semibold">{phase}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Year
+            </span>
+            <span className="text-card-foreground font-semibold">{year}</span>
+          </div>
+          <div className="flex items-center justify-between pt-2 border-t border-border">
+            <span className="text-sm font-medium text-muted-foreground">
+              Status
+            </span>
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                status === "Completed"
+                  ? "bg-accent/20 text-accent"
+                  : "bg-destructive/20 text-destructive"
+              }`}
+            >
+              {status}
+            </span>
+          </div>
         </div>
-        <div className="text-gray-700 mb-1">
-          <span className="font-medium">Phase:</span> {phase}
-        </div>
-        <div className="text-gray-700 mb-1">
-          <span className="font-medium">Year:</span> {year} {/* 🔹 show year */}
-        </div>
-        <div className="text-gray-700 mb-4">
-          <span className="font-medium">Status:</span>{" "}
-          <span
-            className={
-              status === "Completed" ? "text-green-600" : "text-red-600"
-            }
-          >
-            {status}
-          </span>
-        </div>
+
         <DialogTrigger asChild>
-          <Button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
-            Edit
+          <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition-colors">
+            Edit Event
           </Button>
         </DialogTrigger>
       </div>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-card border-border">
         <form>
           <DialogHeader className="text-center flex flex-col items-center">
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle className="text-card-foreground">
+              Edit Event
+            </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="title-1">Title</Label>
-              <Input id="title-1" name="title" placeholder="Title" />
+            <div className="grid gap-2">
+              <Label htmlFor="title-1" className="text-card-foreground">
+                Title
+              </Label>
+              <Input
+                id="title-1"
+                name="title"
+                placeholder="Event title"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="date-1">Date</Label>
-              <Input id="date-1" name="date" type="date" placeholder="Date" />
+            <div className="grid gap-2">
+              <Label htmlFor="date-1" className="text-card-foreground">
+                Date
+              </Label>
+              <Input
+                id="date-1"
+                name="date"
+                type="date"
+                className="bg-background border-border text-foreground"
+              />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="time-1">Time</Label>
-              <Input id="time-1" name="time" type="time" placeholder="Time" />
+            <div className="grid gap-2">
+              <Label htmlFor="time-1" className="text-card-foreground">
+                Time
+              </Label>
+              <Input
+                id="time-1"
+                name="time"
+                type="time"
+                className="bg-background border-border text-foreground"
+              />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="level-1">Level</Label>
-              <Input id="level-1" name="level" placeholder="Level" />
+            <div className="grid gap-2">
+              <Label htmlFor="level-1" className="text-card-foreground">
+                Level
+              </Label>
+              <Input
+                id="level-1"
+                name="level"
+                placeholder="Beginner / Intermediate / Advanced"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="mode-1">Mode</Label>
-              <Input id="mode-1" name="mode" placeholder="Mode" />
+            <div className="grid gap-2">
+              <Label htmlFor="mode-1" className="text-card-foreground">
+                Mode
+              </Label>
+              <Input
+                id="mode-1"
+                name="mode"
+                placeholder="Online / Offline / Hybrid"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="participants-1">Participants</Label>
+            <div className="grid gap-2">
+              <Label htmlFor="participants-1" className="text-card-foreground">
+                Participants
+              </Label>
               <Input
                 id="participants-1"
                 name="participants"
-                placeholder="Participants"
+                placeholder="Max participants"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
               />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="file-1">Upload File</Label>
+            <div className="grid gap-2">
+              <Label htmlFor="file-1" className="text-card-foreground">
+                Upload File
+              </Label>
               <Input
                 id="file-1"
                 name="file"
                 type="file"
-                placeholder="Upload File"
+                className="bg-background border-border text-foreground file:bg-primary file:text-primary-foreground"
               />
             </div>
           </div>
-          <DialogFooter className="mt-4">
+          <DialogFooter className="mt-6">
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button
+                variant="outline"
+                className="border-border text-card-foreground hover:bg-card bg-transparent"
+              >
+                Cancel
+              </Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              Save changes
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

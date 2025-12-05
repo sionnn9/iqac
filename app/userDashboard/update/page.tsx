@@ -15,26 +15,22 @@ export default function Page() {
         </h1>
       </div>
 
-      {/* Single Grid Container */}
-      <div className="p-4 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {Event.map((num) => (
+      <div className="p-6 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {Event.map((eventId) => (
           <button
-            key={num}
+            key={eventId}
             onClick={() => (window.location.href = `/userDashboard/eventinfo`)}
-            className="relative w-full aspect-square bg-white shadow-md rounded-xl flex flex-col items-center justify-center gap-4 
-                       transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg overflow-hidden"
+            className="relative w-full aspect-square bg-card shadow-md border border-border rounded-lg flex flex-col items-center justify-center gap-3 
+                       transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:-translate-y-2 hover:border-primary group"
           >
-            {/* Top Strip */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-blue-900 rounded-t-xl" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent rounded-t-lg group-hover:shadow-lg" />
 
-            {/* Icon */}
-            <div className="text-4xl bg-blue-100 text-blue-700 p-4 rounded-full z-10">
-              🎓
+            <div className="text-5xl bg-primary/15 text-primary p-5 rounded-xl z-10 transition-all group-hover:bg-primary/25 group-hover:scale-110">
+              📋
             </div>
 
-            {/* Label */}
-            <div className="text-center font-bold text-lg sm:text-lg pt-3 z-10">
-              Event {num}
+            <div className="text-center font-bold text-lg text-card-foreground z-10 tracking-tight">
+              Event {eventId}
             </div>
           </button>
         ))}
