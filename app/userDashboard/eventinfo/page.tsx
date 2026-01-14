@@ -34,8 +34,6 @@ const CourseCard: React.FC<CourseCardProps> = ({
   return (
     <Dialog>
       <div className="bg-card rounded-lg shadow-md p-6 m-4 w-full max-w-sm border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent rounded-t-lg" />
-
         <h2 className="text-lg font-bold text-card-foreground mb-4 mt-2">
           {heading}
         </h2>
@@ -165,7 +163,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
                 id="file-1"
                 name="file"
                 type="file"
-                className="bg-background border-border text-foreground file:bg-primary file:text-primary-foreground"
+                className="bg-background border-border text-foreground  file:text-black"
               />
             </div>
           </div>
@@ -206,7 +204,7 @@ const Page: React.FC = () => {
   );
 
   return (
-    <div className="w-full h-auto min-h-screen bg-gray-100">
+    <div className="w-full  h-auto min-h-screen bg-gray-100">
       <div className="bg-gray-950 w-full h-20 flex items-center">
         <SidebarTrigger className="w-15 h-15 ml-3 text-white" />
         <div className="w-full text-white flex justify-center items-center text-xl pr-9">
