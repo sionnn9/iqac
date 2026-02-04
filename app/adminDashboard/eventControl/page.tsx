@@ -336,7 +336,7 @@ export default function Page() {
             Collegess
           </h1>
         </div>
-        <Skeleton className="w-full h-full m-7 rounded-xl" />
+        <AddBranchButton />
       </div>
     );
   }

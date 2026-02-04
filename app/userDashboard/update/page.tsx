@@ -20,7 +20,7 @@ export default function Page() {
           <button
             key={eventId}
             onClick={() => (window.location.href = `/userDashboard/eventinfo`)}
-            className="relative w-full aspect-square bg-card shadow-md border border-border rounded-lg flex flex-col items-center justify-center gap-3 
+            className="hover:cursor-pointer relative w-full aspect-square bg-card shadow-md border border-border rounded-lg flex flex-col items-center justify-center gap-3 
                        transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl hover:-translate-y-2 hover:border-primary group"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-accent rounded-t-lg group-hover:shadow-lg" />
