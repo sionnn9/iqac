@@ -24,6 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { UseBranches, useBranchStore } from "@/app/store";
+import EventCard from "./eventCard";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -51,7 +52,7 @@ const Adduserbutton = () => {
             department_id: id,
             role,
           }),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -64,6 +65,37 @@ const Adduserbutton = () => {
       console.log("User added:", data);
     } catch (e) {
       console.error("Request failed:", e);
+    }
+  };
+
+  const createEvent = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/events/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          department: "69836311056b0e93b67c4b04",
+          type: "competition",
+          academic_year: "2025-2026",
+          phase: 1,
+          start_date: "2025-07-15",
+          end_date: "2025-12-20",
+          branchId: "68d37c98242d51d89f71554b",
+          participants: 100,
+          mode: "offline",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create event");
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error: any) {
+      console.error(error.message);
     }
   };
 
@@ -131,15 +163,9 @@ const Page = () => {
       participants,*/
   const [mode, setmode] = useState("");
 
-  const [type, settype] = useState("");
-  const [academic_year, setacademic_year] = useState({ start: "", end: "" });
-  const [phase, setphase] = useState("");
-  const [start_date, setstart_date] = useState("");
-  const [end_date, setEnd_date] = useState("");
-  const [participants, setparticipants] = useState("");
   const searchparam = useSearchParams();
   const department = searchparam.get("department");
-  const departmentId = searchparam.get("id");
+
   const [branchId, setBranchId] = useState<string>("");
 
   const { currentBranchId, setCurrentBranchId } = useBranchStore();
@@ -152,43 +178,6 @@ const Page = () => {
   }, [url]);
 
   // Assume you already stored branchId in Zustand store
-
-  const handleSubmit = async () => {
-    const payload = {
-      mode,
-      department: departmentId, // must match backend
-      type: type,
-      academic_year: `2025-2026`,
-      phase: phase,
-      start_date: start_date,
-      end_date: end_date,
-      branchId: branchId, // from Zustand
-      participants,
-    };
-
-    console.log("Submitting Event:", payload);
-
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/assignEvent`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      const data = await res.json();
-      if (res.ok) {
-        console.log("Event Assigned Successfully:", data);
-        alert("event added Succussfully");
-      } else {
-        console.error("Error Assigning Event:", data.message);
-      }
-    } catch (err) {
-      console.error("Request Failed:", err);
-    }
-  };
 
   useEffect(() => {
     console.log(branchId);
@@ -222,111 +211,7 @@ const Page = () => {
 
         {/* Event Guests Tab */}
         <TabsContent value="event-guests" className="mt-6">
-          <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-              Number of Guests
-            </h2>
-
-            {/* Event Name */}
-            <Select onValueChange={settype} required>
-              <SelectTrigger className="w-full cursor-pointer">
-                <SelectValue placeholder="Events" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="event1">Event1</SelectItem>
-                <SelectItem value="event2">Event2</SelectItem>
-                <SelectItem value="event3">Event3</SelectItem>
-                <SelectItem value="event4">Event4</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Type of Event */}
-            <Select onValueChange={settype} required>
-              <SelectTrigger className="w-full cursor-pointer mt-5">
-                <SelectValue placeholder="Type of Event" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="seminar">Seminar</SelectItem>
-                <SelectItem value="workshop">Workshop</SelectItem>
-                <SelectItem value="guest lecture">Guest Lecture</SelectItem>
-                <SelectItem value="competition">Competition</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Mode of Event */}
-            <Select onValueChange={setmode} required>
-              <SelectTrigger className="w-full mt-5 cursor-pointer">
-                <SelectValue placeholder="Mode of event" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="online">Online</SelectItem>
-                <SelectItem value="offline">Offline</SelectItem>
-              </SelectContent>
-            </Select>
-
-            {/* Phase */}
-            <Select onValueChange={setphase} required>
-              <SelectTrigger className="w-full mt-5 cursor-pointer">
-                <SelectValue placeholder="Phase" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1">Phase 1</SelectItem>
-                <SelectItem value="2">Phase 2</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="flex w-full mt-5 max-w-sm items-center gap-2">
-              {/* Start Year */}
-              <Input
-                type="date"
-                placeholder="Start Year"
-                className="w-full cursor-pointer"
-                required
-                onChange={(e) => {
-                  setacademic_year((prev) => ({
-                    ...prev,
-                    start: e.target.value,
-                  }));
-                  setstart_date(e.target.value); // keep if backend needs it separately
-                }}
-              />
-
-              <span className="text-gray-500">-</span>
-
-              {/* End Year */}
-              <Input
-                type="date"
-                required
-                placeholder="End Year"
-                className="w-full cursor-pointer"
-                onChange={(e) => {
-                  setacademic_year((prev) => ({
-                    ...prev,
-                    end: e.target.value,
-                  }));
-                  setEnd_date(e.target.value); // keep if backend needs it separately
-                }}
-              />
-            </div>
-
-            {/* Participants */}
-            <div className="flex w-full mt-5 max-w-sm items-center gap-2 cursor-pointer">
-              <Input
-                type="number"
-                placeholder="Number of guests"
-                required
-                onChange={(e) => setparticipants(e.target.value)}
-              />
-            </div>
-            <Button
-              onClick={handleSubmit}
-              type="button"
-              variant="outline"
-              className="w-full cursor-pointer bg-black text-white ease-out mt-6"
-            >
-              Submit
-            </Button>
-          </div>
+          <EventCard DepartmentId={searchparam.get("id")} BranchId={branchId} />
         </TabsContent>
       </Tabs>
     </div>
