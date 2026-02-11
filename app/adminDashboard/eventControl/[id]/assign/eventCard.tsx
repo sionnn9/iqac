@@ -60,6 +60,7 @@ export default function EventCard({ DepartmentId, BranchId }: Props) {
         alert("event added Succussfully");
       } else {
         console.error("Error Assigning Event:", data.message);
+        alert(data.message);
       }
     } catch (err) {
       console.error("Request Failed:", err);

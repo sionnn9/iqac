@@ -36,11 +36,11 @@ export function LoginForm({
           password: password,
         }),
       });
+      const data = await jwt.json();
       if (!jwt.ok) {
-        alert("Somthing went Wrong");
+        alert(data.message);
       }
 
-      const data = await jwt.json();
       console.log(data);
       if (data?.user?.role == "admin") {
         isLoggedin.setLoggedIn();

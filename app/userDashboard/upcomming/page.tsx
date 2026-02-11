@@ -1,7 +1,34 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const Page = () => {
+  const getAllEvents = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}user/getAllEvents`,
+        {
+          method: "GET",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.message || "Failed to fetch events");
+      }
+
+      const data = await response.json();
+      console.log("Events:", data);
+      return data;
+    } catch (error: any) {
+      console.error("Fetch events error:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    getAllEvents();
+  }, []);
   return (
     <div className="w-full h-auto ">
       <div className="bg-gray-950 w-full h-20 flex items-center">
