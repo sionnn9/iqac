@@ -86,6 +86,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
             <DialogTitle className="text-card-foreground">
               Edit Event
             </DialogTitle>
+
+            <DialogDescription>Update the event details.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
@@ -200,7 +202,7 @@ const Page: React.FC = () => {
       phase: i % 2 === 0 ? "Phase 1" : "Phase 2",
       status: i % 2 === 0 ? "Completed" : "Not Completed",
       year: 2025, // 🔹 unique year for each card
-    })
+    }),
   );
 
   return (

@@ -18,6 +18,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -98,6 +99,9 @@ const AddBranchButton = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Name Of The School</AlertDialogTitle>
+          <AlertDialogDescription>
+            Enter the name of the school to create a new branch.
+          </AlertDialogDescription>
         </AlertDialogHeader>
 
         <input
