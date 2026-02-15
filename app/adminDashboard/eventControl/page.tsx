@@ -18,6 +18,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -81,29 +82,35 @@ const AddBranchButton = () => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <div className="w-full flex justify-center p-4">
           <button
             className="w-52 sm:w-56 h-52 sm:h-56 flex flex-col justify-center items-center 
-                     bg-white rounded-2xl shadow-lg border-t-8 border-black 
-                     transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
+                   bg-white rounded-2xl shadow-lg border-t-8 border-black 
+                   transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-2xl"
           >
             <Plus size={32} />
-            <h1 className="mt-4  sm:mt-6 font-semibold text-center text-sm sm:text-base">
+            <h1 className="mt-4 sm:mt-6 font-semibold text-center text-sm sm:text-base">
               Add School
             </h1>
           </button>
         </div>
       </AlertDialogTrigger>
+
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Name Of The School</AlertDialogTitle>
+          <AlertDialogDescription>
+            Enter the name of the school to create a new branch.
+          </AlertDialogDescription>
         </AlertDialogHeader>
+
         <input
           onChange={(e) => setname(e.target.value)}
           placeholder="School Name"
-          className="flex justify-center border-black p-2 items-center border rounded-xl h-10"
+          className="border-black p-2 border rounded-xl h-10 w-full"
         />
+
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction onClick={AddBranches}>Continue</AlertDialogAction>

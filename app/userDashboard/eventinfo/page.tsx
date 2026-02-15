@@ -98,6 +98,8 @@ const CourseCard: React.FC<event> = ({
             <DialogTitle className="text-card-foreground">
               Edit Event
             </DialogTitle>
+
+            <DialogDescription>Update the event details.</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
