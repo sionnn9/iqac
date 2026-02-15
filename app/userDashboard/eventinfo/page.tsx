@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type event = {
+  _id: string;
   mode: string;
   participants: number;
   type: string;
@@ -26,6 +27,7 @@ type event = {
 };
 
 const CourseCard: React.FC<event> = ({
+  _id,
   mode,
   participants,
   type,
@@ -33,6 +35,45 @@ const CourseCard: React.FC<event> = ({
   phase,
   academic_year,
 }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const values = {
+      eventId: _id,
+      title: formData.get("title") as string,
+      description: formData.get("desc") as string,
+      date: formData.get("date") as string,
+      time: formData.get("time") as string,
+      level: formData.get("level") as string,
+    };
+
+    console.log(values);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}user/completeEvent`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        },
+      );
+
+      const data = await res.json();
+      console.log("Server response:", data);
+
+      if (res.ok) {
+        alert(data.message);
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
   return (
     <Dialog>
       <div className="bg-card rounded-lg shadow-md p-6 m-4 w-full max-w-sm border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary">
@@ -93,11 +134,9 @@ const CourseCard: React.FC<event> = ({
       </div>
 
       <DialogContent className="sm:max-w-[425px] bg-card border-border">
-        <form>
+        <form onSubmit={handleSubmit}>
           <DialogHeader className="text-center flex flex-col items-center">
-            <DialogTitle className="text-card-foreground">
-              Edit Event
-            </DialogTitle>
+            <DialogTitle className="text-card-foreground">{type}</DialogTitle>
 
             <DialogDescription>Update the event details.</DialogDescription>
           </DialogHeader>
@@ -110,6 +149,18 @@ const CourseCard: React.FC<event> = ({
                 id="title-1"
                 name="title"
                 placeholder="Event title"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="desc" className="text-card-foreground">
+                Description
+              </Label>
+              <Input
+                id="desc"
+                name="desc"
+                placeholder="Description of event"
                 className="bg-background border-border text-foreground placeholder:text-muted-foreground"
               />
             </div>
@@ -143,41 +194,8 @@ const CourseCard: React.FC<event> = ({
               <Input
                 id="level-1"
                 name="level"
-                placeholder="Beginner / Intermediate / Advanced"
+                placeholder="1 / 2 / 3"
                 className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="mode-1" className="text-card-foreground">
-                Mode
-              </Label>
-              <Input
-                id="mode-1"
-                name="mode"
-                placeholder="Online / Offline / Hybrid"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="participants-1" className="text-card-foreground">
-                Participants
-              </Label>
-              <Input
-                id="participants-1"
-                name="participants"
-                placeholder="Max participants"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="file-1" className="text-card-foreground">
-                Upload File
-              </Label>
-              <Input
-                id="file-1"
-                name="file"
-                type="file"
-                className="bg-background border-border text-foreground  file:text-black"
               />
             </div>
           </div>
@@ -260,6 +278,7 @@ const Page: React.FC = () => {
               ?.filter((data) => data.phase == 1)
               .map((data, index) => (
                 <CourseCard
+                  _id={data._id}
                   key={index}
                   mode={data.mode}
                   participants={data.participants}
@@ -278,6 +297,7 @@ const Page: React.FC = () => {
               .map((data, index) => (
                 <CourseCard
                   key={index}
+                  _id={data._id}
                   mode={data.mode}
                   participants={data.participants}
                   type={data.type}
