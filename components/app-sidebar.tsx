@@ -40,7 +40,7 @@ const data = {
     },
     {
       name: "Update Events",
-      url: "/userDashboard/update",
+      url: "/userDashboard/eventinfo",
       icon: Map,
     },
   ],

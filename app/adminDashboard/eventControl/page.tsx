@@ -43,12 +43,13 @@ const AddBranchButton = () => {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-        }
+        },
       );
+      const data = await responce.json();
       if (responce.ok) {
-        const data = await responce.json();
         setBranches(data?.branches);
       } else {
+        console.log(data);
         console.log("Error fetching branches");
       }
     } catch (e) {
@@ -65,7 +66,7 @@ const AddBranchButton = () => {
           headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ name }),
-        }
+        },
       );
       if (responce.ok) {
         await responce.json();
@@ -127,7 +128,7 @@ export default function Page() {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
-        }
+        },
       );
       if (responce.ok) {
         const data = await responce.json();
@@ -154,7 +155,7 @@ export default function Page() {
           },
           credentials: "include",
           body: JSON.stringify({ name: newBranchName }),
-        }
+        },
       );
       if (!responce.ok) {
         alert(responce.text);
@@ -182,7 +183,7 @@ export default function Page() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
       if (!responce.ok) {
         const responceerror = await responce.text();

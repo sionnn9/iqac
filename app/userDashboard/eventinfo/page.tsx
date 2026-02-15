@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,34 +16,44 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type CourseCardProps = {
-  heading: string;
-  course: string;
-  phase: string;
-  status: "Completed" | "Not Completed";
-  year: number; // 🔹 added year
+type event = {
+  mode: string;
+  participants: number;
+  type: string;
+  status: string;
+  phase: number;
+  academic_year: string;
 };
 
-const CourseCard: React.FC<CourseCardProps> = ({
-  heading,
-  course,
-  phase,
+const CourseCard: React.FC<event> = ({
+  mode,
+  participants,
+  type,
   status,
-  year,
+  phase,
+  academic_year,
 }) => {
   return (
     <Dialog>
       <div className="bg-card rounded-lg shadow-md p-6 m-4 w-full max-w-sm border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary">
         <h2 className="text-lg font-bold text-card-foreground mb-4 mt-2">
-          {heading}
+          {type}
         </h2>
 
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">
-              Course
+              Conduct Mode
             </span>
-            <span className="text-card-foreground font-semibold">{course}</span>
+            <span className="text-card-foreground font-semibold">{mode}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-muted-foreground">
+              Number participants
+            </span>
+            <span className="text-card-foreground font-semibold">
+              {participants}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">
@@ -53,9 +63,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">
-              Year
+              Academic Year
             </span>
-            <span className="text-card-foreground font-semibold">{year}</span>
+            <span className="text-card-foreground font-semibold">
+              {academic_year}
+            </span>
           </div>
           <div className="flex items-center justify-between pt-2 border-t border-border">
             <span className="text-sm font-medium text-muted-foreground">
@@ -190,18 +202,36 @@ const CourseCard: React.FC<CourseCardProps> = ({
 };
 
 const Page: React.FC = () => {
-  const totalCards = 5;
+  const [events, setEvents] = useState<event[] | null>();
 
-  const courseData: CourseCardProps[] = Array.from(
-    { length: totalCards },
-    (_, i) => ({
-      heading: `Event`,
-      course: `BCA`,
-      phase: i % 2 === 0 ? "Phase 1" : "Phase 2",
-      status: i % 2 === 0 ? "Completed" : "Not Completed",
-      year: 2025, // 🔹 unique year for each card
-    })
-  );
+  const getEvents = async () => {
+    try {
+      const responce = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}user/getAllEvents`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        },
+      );
+      const data = await responce.json();
+
+      console.log(data);
+      if (responce.ok) {
+        console.log(data);
+        setEvents(data.events);
+      } else {
+        console.log(data);
+        console.log("Error fetching branches");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, []);
 
   return (
     <div className="w-full  h-auto min-h-screen bg-gray-100">
@@ -211,7 +241,10 @@ const Page: React.FC = () => {
           Events edit place
         </div>
       </div>
-      <Tabs defaultValue="phase1" className="w-full mt-6">
+      <Tabs
+        defaultValue="phase1"
+        className="w-full mt-6 flex flex-col justify-center items-center"
+      >
         <div className="flex justify-center">
           <TabsList className="mb-4">
             <TabsTrigger value="phase1">Phase 1</TabsTrigger>
@@ -219,24 +252,38 @@ const Page: React.FC = () => {
           </TabsList>
         </div>
 
-        <TabsContent value="phase1">
-          <div className="flex flex-wrap justify-center mt-4">
-            {courseData
-              .filter((item) => item.phase === "Phase 1")
-              .map((item, index) => (
-                <CourseCard key={index} {...item} />
+        <TabsContent value="phase1" className="flex flex-wrap">
+          {events &&
+            events
+              ?.filter((data) => data.phase == 1)
+              .map((data, index) => (
+                <CourseCard
+                  key={index}
+                  mode={data.mode}
+                  participants={data.participants}
+                  type={data.type}
+                  status={data.status}
+                  phase={data.phase}
+                  academic_year={data.academic_year}
+                />
               ))}
-          </div>
         </TabsContent>
 
-        <TabsContent value="phase2">
-          <div className="flex flex-wrap justify-center mt-4">
-            {courseData
-              .filter((item) => item.phase === "Phase 2")
-              .map((item, index) => (
-                <CourseCard key={index} {...item} />
+        <TabsContent value="phase2" className="flex flex-wrap">
+          {events &&
+            events
+              ?.filter((data) => data.phase == 2)
+              .map((data, index) => (
+                <CourseCard
+                  key={index}
+                  mode={data.mode}
+                  participants={data.participants}
+                  type={data.type}
+                  status={data.status}
+                  phase={data.phase}
+                  academic_year={data.academic_year}
+                />
               ))}
-          </div>
         </TabsContent>
       </Tabs>
     </div>
