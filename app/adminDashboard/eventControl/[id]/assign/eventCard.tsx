@@ -11,7 +11,7 @@ import {
 
 type Props = { DepartmentId: string | null; BranchId: string | null };
 
-export default function EventCard({ DepartmentId, BranchId }: Props) {
+export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   const [type, setType] = useState("");
   const [mode, setMode] = useState("");
   const [phase, setPhase] = useState("");

@@ -24,7 +24,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { UseBranches, useBranchStore } from "@/app/store";
-import EventCard from "./eventCard";
+
+import AssignEventCard from "./eventCard";
+import AddSemisterDates from "./Addsemister";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -202,6 +204,10 @@ const Page = () => {
           <TabsTrigger value="event-guests" className="flex-1">
             Event Guests
           </TabsTrigger>
+
+          <TabsTrigger value="set-semister" className="flex-1">
+            Set Semister
+          </TabsTrigger>
         </TabsList>
 
         {/* Add User Tab */}
@@ -211,7 +217,14 @@ const Page = () => {
 
         {/* Event Guests Tab */}
         <TabsContent value="event-guests" className="mt-6">
-          <EventCard DepartmentId={searchparam.get("id")} BranchId={branchId} />
+          <AssignEventCard
+            DepartmentId={searchparam.get("id")}
+            BranchId={branchId}
+          />
+        </TabsContent>
+
+        <TabsContent value="set-semister" className="mt-6">
+          <AddSemisterDates DepartmentId={searchparam.get("id")} />
         </TabsContent>
       </Tabs>
     </div>
