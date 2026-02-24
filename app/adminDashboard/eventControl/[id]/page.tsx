@@ -47,7 +47,7 @@ const AddDepartmentButton = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
       if (!responce.ok) {
         console.log("error");
@@ -85,7 +85,7 @@ const AddDepartmentButton = () => {
             branchId: Branch_id.id,
           }),
           credentials: "include",
-        }
+        },
       );
 
       if (!response.ok) {
@@ -169,7 +169,7 @@ export default function Page() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-        }
+        },
       );
       if (!responce.ok) {
         console.log("error");
@@ -196,7 +196,7 @@ export default function Page() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ name: editedName, branchId: param.id }),
-        }
+        },
       );
       if (!responce.ok) {
         const data = await responce.text;
@@ -225,7 +225,7 @@ export default function Page() {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       if (!responce.ok) {
         const data = await responce.text();
@@ -241,6 +241,7 @@ export default function Page() {
       console.log(e);
     }
   };
+
   useEffect(() => {
     getDepartment();
     setisClient(true);
@@ -281,13 +282,6 @@ export default function Page() {
             <div className="text-center font-medium text-lg sm:text-lg md:text-base lg:text-lg pt-2 z-10 px-4 text-gray-800 break-words">
               {data.name}
             </div>
-
-            {/* Semester Year */}
-            {/* <div className="text-center text-sm sm:text-sm md:text-md pt-1 z-10 text-gray-600">
-              {data.startYear && data.endYear
-              ? `${data.startYear} - ${data.endYear}`
-              : "No date set"}
-            </div> */}
 
             {/* Edit & Delete Actions */}
             <div className="flex gap-2 mt-auto mb-4 px-3 w-full justify-center">

@@ -30,7 +30,7 @@ const data = {
     },
     {
       name: "Completed Events",
-      url: "/userDashboard/pastEvents",
+      url: "/userDashboard/completedevents",
       icon: PieChart,
     },
     {

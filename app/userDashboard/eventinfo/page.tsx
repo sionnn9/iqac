@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CourseCard } from "./Coursecard";
+import { CourseCard } from "../../costomcomp/userComp/Coursecard";
 
 type event = {
   _id: string;
