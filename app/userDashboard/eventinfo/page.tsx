@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CourseCard } from "../../costomcomp/userComp/Coursecard";
+import { UploadEventDetails } from "../../../components/userComp/Coursecard";
 
 type event = {
   _id: string;
@@ -83,7 +83,7 @@ const Page: React.FC = () => {
             events
               ?.filter((data) => data.phase == 1)
               .map((data, index) => (
-                <CourseCard
+                <UploadEventDetails
                   _id={data._id}
                   key={index}
                   mode={data.mode}
@@ -102,7 +102,7 @@ const Page: React.FC = () => {
             events
               ?.filter((data) => data.phase == 2)
               .map((data, index) => (
-                <CourseCard
+                <UploadEventDetails
                   key={index}
                   _id={data._id}
                   mode={data.mode}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 type event = {
   _id: string;
   mode: string;
@@ -25,7 +25,7 @@ type event = {
   academic_year: string;
 };
 
-export const CourseCard: React.FC<event> = ({
+export const UploadEventDetails: React.FC<event> = ({
   _id,
   mode,
   participants,
