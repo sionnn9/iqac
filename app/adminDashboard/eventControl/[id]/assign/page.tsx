@@ -25,8 +25,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { UseBranches, useBranchStore } from "@/app/store";
 
-import AssignEventCard from "./eventCard";
-import AddSemisterDates from "./Addsemister";
+import AssignEventCard from "../../../../../components/adminComp/eventCard";
+import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -67,37 +67,6 @@ const Adduserbutton = () => {
       console.log("User added:", data);
     } catch (e) {
       console.error("Request failed:", e);
-    }
-  };
-
-  const createEvent = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/events/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          department: "69836311056b0e93b67c4b04",
-          type: "competition",
-          academic_year: "2025-2026",
-          phase: 1,
-          start_date: "2025-07-15",
-          end_date: "2025-12-20",
-          branchId: "68d37c98242d51d89f71554b",
-          participants: 100,
-          mode: "offline",
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create event");
-      }
-
-      const data = await response.json();
-      console.log("Success:", data);
-    } catch (error: any) {
-      console.error(error.message);
     }
   };
 

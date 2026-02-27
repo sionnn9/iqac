@@ -18,7 +18,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [participants, setParticipants] = useState<number | null>(0);
-  const [eventName, setEventName] = useState("");
+
   const [academicYears, setAcademicYears] = useState([""]);
   const [academicYear, setAcademicYear] = useState<string>("");
   const getAcademicYears = (startYear = 2025, count = 6) => {
@@ -84,12 +84,6 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
       <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
         Event
       </h2>
-      <Input
-        type="text"
-        required
-        placeholder="Enter the event name"
-        onChange={(e) => setEventName(e.target.value)}
-      />
 
       {/* Type */}
       <Select required onValueChange={setType}>
