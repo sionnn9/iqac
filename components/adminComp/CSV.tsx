@@ -1,17 +1,23 @@
 "use client";
 
 import React, { useState } from "react";
+import { Button } from "../ui/button";
 
-export default function DownloadButton() {
+interface Prop {
+  departmentId: string | null;
+}
+
+export default function CSVButton({ departmentId }: Prop) {
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {
     setIsDownloading(true);
     try {
       const response = await fetch(
-        "/api/admin/generateEventCSV?departmentId=68d37ca6242d51d89f715555",
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/generateEventCSV?departmentId=${departmentId}`,
         {
           method: "GET",
+          credentials: "include",
         },
       );
 
@@ -40,12 +46,12 @@ export default function DownloadButton() {
   };
 
   return (
-    <button
+    <Button
       onClick={handleDownload}
       disabled={isDownloading}
-      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400"
+      className="px-4 py-2"
     >
       {isDownloading ? "Generating CSV..." : "Download Event CSV"}
-    </button>
+    </Button>
   );
 }

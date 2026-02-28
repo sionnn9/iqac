@@ -27,6 +27,7 @@ import { UseBranches, useBranchStore } from "@/app/store";
 
 import AssignEventCard from "../../../../../components/adminComp/eventCard";
 import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
+import CSVButton from "@/components/adminComp/CSV";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -159,8 +160,10 @@ const Page = () => {
       {/* Top Bar */}
       <div className="bg-gray-950 w-full h-20 flex items-center">
         <SidebarTrigger className="w-15 h-15 ml-3 text-white" />
-        <div className="w-full text-white flex justify-center items-center text-xl pr-9">
+        <div className="w-full text-white flex justify-between items-center text-xl p-5">
           {department}
+
+          <CSVButton departmentId={searchparam.get("id")} />
         </div>
       </div>
 
