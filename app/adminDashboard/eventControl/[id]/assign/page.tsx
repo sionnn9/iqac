@@ -28,6 +28,7 @@ import { UseBranches, useBranchStore } from "@/app/store";
 import AssignEventCard from "../../../../../components/adminComp/eventCard";
 import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
 import CSVButton from "@/components/adminComp/CSV";
+import EventsAdmin from "@/components/adminComp/allEvents";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -168,19 +169,27 @@ const Page = () => {
       </div>
 
       {/* Tabs for Add User & Event Guests */}
-      <Tabs defaultValue="add-user" className="w-full max-w-lg mx-auto mt-6">
-        <TabsList className="w-full flex">
-          <TabsTrigger value="add-user" className="flex-1">
-            Add Admin/User
-          </TabsTrigger>
-          <TabsTrigger value="event-guests" className="flex-1">
-            Event Guests
-          </TabsTrigger>
+      <Tabs
+        defaultValue="add-user"
+        className="w-full h-full mt-6  flex flex-col justify-center items-center"
+      >
+        <div className="w-full flex justify-center items-center">
+          <TabsList className="w-1/3 flex">
+            <TabsTrigger value="add-user" className="flex-1">
+              Add Admin/User
+            </TabsTrigger>
+            <TabsTrigger value="event-guests" className="flex-1">
+              Event Guests
+            </TabsTrigger>
+            <TabsTrigger value="events" className="flex-1">
+              Events
+            </TabsTrigger>
 
-          <TabsTrigger value="set-semister" className="flex-1">
-            Set Semister
-          </TabsTrigger>
-        </TabsList>
+            <TabsTrigger value="set-semister" className="flex-1">
+              Set Semister
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Add User Tab */}
         <TabsContent value="add-user" className="mt-6 flex justify-center">
@@ -194,9 +203,15 @@ const Page = () => {
             BranchId={branchId}
           />
         </TabsContent>
-
-        <TabsContent value="set-semister" className="mt-6">
+        <TabsContent
+          value="set-semister"
+          className="mt-6 w-full flex justify-center items-center"
+        >
           <AddSemisterDates DepartmentId={searchparam.get("id")} />
+        </TabsContent>
+
+        <TabsContent value="events" className="mt-6 w-full ">
+          <EventsAdmin departmentId={searchparam.get("id")} />
         </TabsContent>
       </Tabs>
     </div>
