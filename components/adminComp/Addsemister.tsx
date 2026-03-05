@@ -19,6 +19,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import CurrentSemesterStatus from "./semisterDisplay";
+import { useParams } from "next/navigation";
 
 interface DateRangeCardProps {
   DepartmentId: string | null;
@@ -36,6 +37,7 @@ interface ISemesterConfig {
 }
 
 export default function AddSemisterDates({ DepartmentId }: DateRangeCardProps) {
+  const param = useParams();
   const [open, setOpen] = useState(false);
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
@@ -46,6 +48,7 @@ export default function AddSemisterDates({ DepartmentId }: DateRangeCardProps) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
+      console.log(DepartmentId, start, end);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/addSemester`,
@@ -82,9 +85,10 @@ export default function AddSemisterDates({ DepartmentId }: DateRangeCardProps) {
   };
 
   const getSemesters = async () => {
+    const branchId = param.id;
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/getSemester?branchId=68d37c98242d51d89f71554b`,
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/getSemester?branchId=${branchId}`,
         {
           method: "GET",
           credentials: "include",
