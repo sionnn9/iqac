@@ -152,7 +152,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
         className="mt-5"
         type="number"
         required
-        placeholder="Number of guests"
+        placeholder="Number of cards"
         onChange={(e) => setParticipants(Number(e.target.value))}
       />
 

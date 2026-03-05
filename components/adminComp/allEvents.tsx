@@ -83,10 +83,7 @@ export default function EventsAdmin({
             </div>
 
             <button
-              onClick={() => {
-                // Simple download trigger
-                window.location.href = `/api/admin/generateEventCSV?departmentId=${departmentId}`;
-              }}
+              onClick={() => {}}
               className="w-full bg-gray-900 hover:bg-gray-700 text-white py-2.5 rounded-xl font-bold transition-all active:scale-95"
             >
               Details
