@@ -160,7 +160,7 @@ export default function Page() {
           </TabsContent>
 
           <TabsContent value="dates">
-            <div className="bg-white p-6 rounded-lg shadow-md max-w-xl mx-auto">
+            <div className=" p-6  max-w-xl mx-auto">
               <AddSemisterDates DepartmentId={searchparam.get("id")} />
             </div>
           </TabsContent>
