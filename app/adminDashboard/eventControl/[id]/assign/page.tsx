@@ -184,10 +184,6 @@ const Page = () => {
             <TabsTrigger value="events" className="flex-1">
               Events
             </TabsTrigger>
-
-            <TabsTrigger value="set-semister" className="flex-1">
-              Set Semister
-            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -202,12 +198,6 @@ const Page = () => {
             DepartmentId={searchparam.get("id")}
             BranchId={branchId}
           />
-        </TabsContent>
-        <TabsContent
-          value="set-semister"
-          className="mt-6 w-full flex justify-center items-center"
-        >
-          <AddSemisterDates DepartmentId={searchparam.get("id")} />
         </TabsContent>
 
         <TabsContent value="events" className="mt-6 w-full ">
