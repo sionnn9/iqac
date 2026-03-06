@@ -50,7 +50,7 @@ export function LoginForm({
       if (data?.user?.role == "user") {
         isLoggedin.setLoggedIn();
         isLoggedin.setRole("user");
-        router.push("/userDashboard/update");
+        router.push("/userDashboard/eventinfo");
       }
     } catch (e) {
       console.log("error:", e);
