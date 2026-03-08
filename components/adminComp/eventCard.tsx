@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,9 +19,9 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [participants, setParticipants] = useState<number | null>(0);
-
-  const [academicYears, setAcademicYears] = useState([""]);
+  const [academicYears, setAcademicYears] = useState<string[]>([]);
   const [academicYear, setAcademicYear] = useState<string>("");
+
   const getAcademicYears = (startYear = 2025, count = 6) => {
     return Array.from({ length: count }, (_, i) => {
       const y1 = startYear + i;
@@ -29,7 +30,41 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
     });
   };
 
+  const validateDates = () => {
+    if (!startDate || !endDate || !academicYear) {
+      alert("Please fill in all date and year fields");
+      return false;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // 1. Check if Start is before End
+    if (start > end) {
+      alert("Error: Start date cannot be after the end date.");
+      return false;
+    }
+
+    // 2. Check if dates match the selected Academic Year
+    // Split "2025-2026" into [2025, 2026]
+    const [startYearLimit, endYearLimit] = academicYear.split("-").map(Number);
+    const selectedStartYear = start.getFullYear();
+    const selectedEndYear = end.getFullYear();
+
+    if (selectedStartYear < startYearLimit || selectedEndYear > endYearLimit) {
+      alert(
+        `Error: Selected dates must be within the ${academicYear} academic year.`,
+      );
+      return false;
+    }
+
+    return true;
+  };
+
   const Submit = async () => {
+    // Run Validation
+    if (!validateDates()) return;
+
     const payload = {
       department: DepartmentId,
       type: type,
@@ -38,11 +73,9 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
       start_date: startDate,
       end_date: endDate,
       branchId: BranchId,
-      participants: 100,
+      participants: participants,
       mode: mode,
     };
-
-    console.log("Submitting Event:", payload);
 
     try {
       const res = await fetch(
@@ -56,112 +89,113 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
 
       const data = await res.json();
       if (res.ok) {
-        console.log("Event Assigned Successfully:", data);
-        alert("event added Succussfully");
+        alert("Event added successfully");
       } else {
-        console.error("Error Assigning Event:", data.message);
-        alert(data.message);
+        alert(data.message || "Error assigning event");
       }
     } catch (err) {
       console.error("Request Failed:", err);
+      alert("Server connection failed");
     }
   };
 
-  const setYears = () => {
+  useEffect(() => {
     const currentYear = new Date().getFullYear();
     const years = getAcademicYears(currentYear - 4, 7);
-
-    console.log("Generated years:", years); // ✅ should log
     setAcademicYears(years);
-  };
-
-  useEffect(() => {
-    setYears();
   }, []);
 
   return (
     <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
       <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-        Event
+        Assign Event
       </h2>
 
-      {/* Type */}
-      <Select required onValueChange={setType}>
-        <SelectTrigger className="w-full mt-5 cursor-pointer">
-          <SelectValue placeholder="Type of Event" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="seminar">Seminar</SelectItem>
-          <SelectItem value="workshop">Workshop</SelectItem>
-          <SelectItem value="guest lecture">Guest Lecture</SelectItem>
-          <SelectItem value="competition">Competition</SelectItem>
-        </SelectContent>
-      </Select>
+      {/* Select inputs remain the same... */}
+      <div className="space-y-4">
+        <Select required onValueChange={setType}>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Type of Event" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="seminar">Seminar</SelectItem>
+            <SelectItem value="workshop">Workshop</SelectItem>
+            <SelectItem value="guest lecture">Guest Lecture</SelectItem>
+            <SelectItem value="competition">Competition</SelectItem>
+          </SelectContent>
+        </Select>
 
-      {/* Mode */}
-      <Select required onValueChange={setMode}>
-        <SelectTrigger className="w-full mt-5 cursor-pointer">
-          <SelectValue placeholder="Mode of event" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="online">Online</SelectItem>
-          <SelectItem value="offline">Offline</SelectItem>
-        </SelectContent>
-      </Select>
+        <Select required onValueChange={setMode}>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Mode of event" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="online">Online</SelectItem>
+            <SelectItem value="offline">Offline</SelectItem>
+          </SelectContent>
+        </Select>
 
-      <Select required onValueChange={setPhase}>
-        <SelectTrigger className="w-full mt-5 cursor-pointer">
-          <SelectValue placeholder="Phase" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="1">Phase 1</SelectItem>
-          <SelectItem value="2">Phase 2</SelectItem>
-        </SelectContent>
-      </Select>
+        <Select required onValueChange={setPhase}>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Phase" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="1">Phase 1</SelectItem>
+            <SelectItem value="2">Phase 2</SelectItem>
+          </SelectContent>
+        </Select>
 
-      <Select required onValueChange={setAcademicYear}>
-        <SelectTrigger className="w-full mt-5 cursor-pointer">
-          <SelectValue placeholder="Year" />
-        </SelectTrigger>
-        <SelectContent>
-          {academicYears.map((year: string) => (
-            <SelectItem key={year} value={year}>
-              {year}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        <Select required onValueChange={setAcademicYear}>
+          <SelectTrigger className="w-full cursor-pointer">
+            <SelectValue placeholder="Academic Year" />
+          </SelectTrigger>
+          <SelectContent>
+            {academicYears.map((year) => (
+              <SelectItem key={year} value={year}>
+                {year}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-      {/* Dates */}
-      <div className="flex w-full mt-5 items-center gap-2">
+        <div className="flex w-full items-center gap-2">
+          <div className="flex-1">
+            <label className="text-[10px] uppercase font-bold text-gray-400">
+              Start
+            </label>
+            <Input
+              type="date"
+              required
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <span className="text-gray-500 mt-4">-</span>
+          <div className="flex-1">
+            <label className="text-[10px] uppercase font-bold text-gray-400">
+              End
+            </label>
+            <Input
+              type="date"
+              required
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </div>
+
         <Input
-          type="date"
+          type="number"
           required
-          onChange={(e) => setStartDate(e.target.value)}
+          placeholder="Number of participants"
+          onChange={(e) => setParticipants(Number(e.target.value))}
         />
-        <span className="text-gray-500">-</span>
-        <Input
-          type="date"
-          required
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+
+        <Button
+          className="w-full bg-black text-white hover:bg-gray-800"
+          onClick={Submit}
+        >
+          Submit Event
+        </Button>
       </div>
-
-      {/* Participants */}
-      <Input
-        className="mt-5"
-        type="number"
-        required
-        placeholder="Number of cards"
-        onChange={(e) => setParticipants(Number(e.target.value))}
-      />
-
-      <Button
-        className="w-full mt-6 bg-black text-white"
-        onClick={() => Submit()}
-      >
-        Submit
-      </Button>
     </div>
   );
 }
