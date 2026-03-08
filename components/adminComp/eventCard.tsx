@@ -16,9 +16,8 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   const [type, setType] = useState("");
   const [mode, setMode] = useState("");
   const [phase, setPhase] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [participants, setParticipants] = useState<number | null>(0);
+
+  const [noOfCards, setNoOfCards] = useState<number | null>(0);
   const [academicYears, setAcademicYears] = useState<string[]>([]);
   const [academicYear, setAcademicYear] = useState<string>("");
 
@@ -30,50 +29,14 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
     });
   };
 
-  const validateDates = () => {
-    if (!startDate || !endDate || !academicYear) {
-      alert("Please fill in all date and year fields");
-      return false;
-    }
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // 1. Check if Start is before End
-    if (start > end) {
-      alert("Error: Start date cannot be after the end date.");
-      return false;
-    }
-
-    // 2. Check if dates match the selected Academic Year
-    // Split "2025-2026" into [2025, 2026]
-    const [startYearLimit, endYearLimit] = academicYear.split("-").map(Number);
-    const selectedStartYear = start.getFullYear();
-    const selectedEndYear = end.getFullYear();
-
-    if (selectedStartYear < startYearLimit || selectedEndYear > endYearLimit) {
-      alert(
-        `Error: Selected dates must be within the ${academicYear} academic year.`,
-      );
-      return false;
-    }
-
-    return true;
-  };
-
   const Submit = async () => {
-    // Run Validation
-    if (!validateDates()) return;
-
     const payload = {
       department: DepartmentId,
       type: type,
       academic_year: academicYear,
       phase: phase,
-      start_date: startDate,
-      end_date: endDate,
-      branchId: BranchId,
-      participants: participants,
+
+      noOfCards: noOfCards,
       mode: mode,
     };
 
@@ -106,15 +69,17 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   }, []);
 
   return (
-    <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-md p-6 border border-gray-200 dark:border-gray-700">
-      <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
+    <div className="w-[300px] bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+      {/* Increased text size from text-lg to text-2xl and added more margin-bottom */}
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">
         Assign Event
       </h2>
 
-      {/* Select inputs remain the same... */}
-      <div className="space-y-4">
+      {/* Increased space-y-4 to space-y-6 for better breathing room */}
+      <div className="space-y-6">
         <Select required onValueChange={setType}>
-          <SelectTrigger className="w-full cursor-pointer">
+          {/* Added h-12 to triggers to make the inputs taller/chunkier */}
+          <SelectTrigger className="w-full h-12 cursor-pointer">
             <SelectValue placeholder="Type of Event" />
           </SelectTrigger>
           <SelectContent>
@@ -126,7 +91,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
         </Select>
 
         <Select required onValueChange={setMode}>
-          <SelectTrigger className="w-full cursor-pointer">
+          <SelectTrigger className="w-full h-12 cursor-pointer">
             <SelectValue placeholder="Mode of event" />
           </SelectTrigger>
           <SelectContent>
@@ -136,7 +101,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
         </Select>
 
         <Select required onValueChange={setPhase}>
-          <SelectTrigger className="w-full cursor-pointer">
+          <SelectTrigger className="w-full h-12 cursor-pointer">
             <SelectValue placeholder="Phase" />
           </SelectTrigger>
           <SelectContent>
@@ -146,7 +111,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
         </Select>
 
         <Select required onValueChange={setAcademicYear}>
-          <SelectTrigger className="w-full cursor-pointer">
+          <SelectTrigger className="w-full h-12 cursor-pointer">
             <SelectValue placeholder="Academic Year" />
           </SelectTrigger>
           <SelectContent>
@@ -158,39 +123,17 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
           </SelectContent>
         </Select>
 
-        <div className="flex w-full items-center gap-2">
-          <div className="flex-1">
-            <label className="text-[10px] uppercase font-bold text-gray-400">
-              Start
-            </label>
-            <Input
-              type="date"
-              required
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-          </div>
-          <span className="text-gray-500 mt-4">-</span>
-          <div className="flex-1">
-            <label className="text-[10px] uppercase font-bold text-gray-400">
-              End
-            </label>
-            <Input
-              type="date"
-              required
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </div>
-        </div>
-
         <Input
-          type="number"
+          className="h-12"
+          type="number" // Note: Changed "noOfCards" to "number" as that is the valid HTML type
           required
-          placeholder="Number of participants"
-          onChange={(e) => setParticipants(Number(e.target.value))}
+          placeholder="Number of Cards"
+          onChange={(e) => setNoOfCards(Number(e.target.value))}
         />
 
+        {/* Increased button height to h-12 and text to text-md */}
         <Button
-          className="w-full bg-black text-white hover:bg-gray-800"
+          className="w-full h-12 bg-black text-white hover:bg-gray-800 text-md font-semibold transition-all"
           onClick={Submit}
         >
           Submit Event
