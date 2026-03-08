@@ -139,10 +139,11 @@ export const UploadEventDetails: React.FC<event> = ({
         <form onSubmit={handleSubmit}>
           <DialogHeader className="text-center flex flex-col items-center">
             <DialogTitle className="text-card-foreground">{type}</DialogTitle>
-
             <DialogDescription>Update the event details.</DialogDescription>
           </DialogHeader>
+
           <div className="grid gap-4">
+            {/* Existing Fields */}
             <div className="grid gap-2">
               <Label htmlFor="title-1" className="text-card-foreground">
                 Title
@@ -167,6 +168,57 @@ export const UploadEventDetails: React.FC<event> = ({
               />
             </div>
 
+            {/* --- NEW SPEAKER SECTION --- */}
+            <div className="pt-2 pb-1">
+              <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                Speakers
+              </h4>
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="speaker-1" className="text-card-foreground">
+                Speaker 1 <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="speaker-1"
+                name="speaker1"
+                required
+                placeholder="Primary speaker name"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="speaker-2" className="text-card-foreground">
+                Speaker 2{" "}
+                <span className="text-xs text-muted-foreground ml-1">
+                  (Optional)
+                </span>
+              </Label>
+              <Input
+                id="speaker-2"
+                name="speaker2"
+                placeholder="Additional speaker"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="speaker-3" className="text-card-foreground">
+                Speaker 3{" "}
+                <span className="text-xs text-muted-foreground ml-1">
+                  (Optional)
+                </span>
+              </Label>
+              <Input
+                id="speaker-3"
+                name="speaker3"
+                placeholder="Additional speaker"
+                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
+            {/* --- END SPEAKER SECTION --- */}
+
             <div className="grid gap-2">
               <Label htmlFor="date-1" className="text-card-foreground">
                 Date
@@ -178,6 +230,7 @@ export const UploadEventDetails: React.FC<event> = ({
                 className="bg-background border-border text-foreground"
               />
             </div>
+
             <div className="grid gap-2">
               <Label htmlFor="time-1" className="text-card-foreground">
                 Time
@@ -189,6 +242,7 @@ export const UploadEventDetails: React.FC<event> = ({
                 className="bg-background border-border text-foreground"
               />
             </div>
+
             <div className="grid gap-2">
               <Label htmlFor="level-1" className="text-card-foreground">
                 Level
@@ -200,7 +254,20 @@ export const UploadEventDetails: React.FC<event> = ({
                 className="bg-background border-border text-foreground placeholder:text-muted-foreground"
               />
             </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="file-1" className="text-card-foreground">
+                Upload Event File
+              </Label>
+              <Input
+                id="file-1"
+                name="file"
+                type="file"
+                className="bg-background border-border text-foreground"
+              />
+            </div>
           </div>
+
           <DialogFooter className="mt-6">
             <DialogClose asChild>
               <Button
