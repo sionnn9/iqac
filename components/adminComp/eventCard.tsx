@@ -70,12 +70,10 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
 
   return (
     <div className="w-[300px] bg-white dark:bg-gray-900 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-      {/* Increased text size from text-lg to text-2xl and added more margin-bottom */}
       <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">
         Assign Event
       </h2>
 
-      {/* Increased space-y-4 to space-y-6 for better breathing room */}
       <div className="space-y-6">
         <Select required onValueChange={setType}>
           {/* Added h-12 to triggers to make the inputs taller/chunkier */}
