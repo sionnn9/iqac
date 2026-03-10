@@ -14,7 +14,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data. gg
 const data = {
   user: {
     name: "shadcn",
