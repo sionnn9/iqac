@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+"use client";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -40,16 +40,21 @@ export const UploadEventDetails: React.FC<event> = ({
 
     const formData = new FormData(e.currentTarget);
 
+    // Mapped to match your Mongoose Schema exactly
     const values = {
       eventId: _id,
       title: formData.get("title") as string,
       description: formData.get("desc") as string,
       date: formData.get("date") as string,
       time: formData.get("time") as string,
-      level: formData.get("level") as string,
+      level: Number(formData.get("level")), // Schema expects Number
+      venue: formData.get("venue") as string, // Added venue
+      completed: true, // Assuming saving details marks it as completed
+      // Keeping speakers in the payload as requested
+      speaker1: formData.get("speaker1") as string,
+      speaker2: formData.get("speaker2") as string,
+      speaker3: formData.get("speaker3") as string,
     };
-
-    console.log(values);
 
     try {
       const res = await fetch(
@@ -66,16 +71,15 @@ export const UploadEventDetails: React.FC<event> = ({
 
       const data = await res.json();
 
-      console.log("Server response:", data);
-
       if (res.ok) {
-        alert(data.message);
+        alert(data.message || "Event updated successfully");
         await getEvents();
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Error updating event:", err);
     }
   };
+
   return (
     <Dialog>
       <div className="bg-card rounded-lg shadow-md p-6 m-4 w-full max-w-sm border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary">
@@ -86,30 +90,18 @@ export const UploadEventDetails: React.FC<event> = ({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">
-              Conduct Mode
+              Mode
             </span>
-            <span className="text-card-foreground font-semibold">{mode}</span>
+            <span className="text-card-foreground font-semibold capitalize">
+              {mode}
+            </span>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">
-              Number participants
+              Participants
             </span>
             <span className="text-card-foreground font-semibold">
               {participants}
-            </span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-muted-foreground">
-              Phase
-            </span>
-            <span className="text-card-foreground font-semibold">{phase}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-muted-foreground">
-              Academic Year
-            </span>
-            <span className="text-card-foreground font-semibold">
-              {academic_year}
             </span>
           </div>
           <div className="flex items-center justify-between pt-2 border-t border-border">
@@ -129,160 +121,96 @@ export const UploadEventDetails: React.FC<event> = ({
         </div>
 
         <DialogTrigger asChild>
-          <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold transition-colors">
+          <Button className="w-full mt-6 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
             Edit Event
           </Button>
         </DialogTrigger>
       </div>
 
-      <DialogContent className="sm:max-w-[425px] bg-card border-border">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto bg-card border-border">
         <form onSubmit={handleSubmit}>
           <DialogHeader className="text-center flex flex-col items-center">
-            <DialogTitle className="text-card-foreground">{type}</DialogTitle>
-            <DialogDescription>Update the event details.</DialogDescription>
+            <DialogTitle className="text-card-foreground">
+              Update {type}
+            </DialogTitle>
+            <DialogDescription>
+              Enter the final event details for the report.
+            </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4">
-            {/* Existing Fields */}
+          <div className="grid gap-4 mt-4">
             <div className="grid gap-2">
-              <Label htmlFor="title-1" className="text-card-foreground">
-                Title
-              </Label>
+              <Label htmlFor="title">Title</Label>
               <Input
-                id="title-1"
+                id="title"
                 name="title"
-                placeholder="Event title"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
+                placeholder="Event Title"
+                required
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="desc" className="text-card-foreground">
-                Description
-              </Label>
-              <Input
-                id="desc"
-                name="desc"
-                placeholder="Description of event"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
+              <Label htmlFor="desc">Description</Label>
+              <Input id="desc" name="desc" placeholder="Brief summary" />
             </div>
 
-            {/* --- NEW SPEAKER SECTION --- */}
-            <div className="pt-2 pb-1">
-              <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            {/* Speaker Section Kept as Requested */}
+            <div className="pt-2">
+              <h4 className="text-xs font-bold text-muted-foreground uppercase">
                 Speakers
               </h4>
+              <div className="grid gap-3 mt-2">
+                <Input name="speaker1" required placeholder="Speaker 1 Name" />
+                <Input name="speaker2" placeholder="Speaker 2 (Optional)" />
+                <Input name="speaker3" placeholder="Speaker 3 (Optional)" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="date">Date</Label>
+                <Input id="date" name="date" type="date" required />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="time">Time</Label>
+                <Input id="time" name="time" type="time" required />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="level">Level</Label>
+                <Input
+                  id="level"
+                  name="level"
+                  type="number"
+                  placeholder="1-3"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="venue">Venue</Label>
+                <Input id="venue" name="venue" placeholder="Hall/Room Name" />
+              </div>
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="speaker-1" className="text-card-foreground">
-                Speaker 1 <span className="text-destructive">*</span>
-              </Label>
+              <Label htmlFor="file">Event Report/PDF</Label>
               <Input
-                id="speaker-1"
-                name="speaker1"
-                required
-                placeholder="Primary speaker name"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="speaker-2" className="text-card-foreground">
-                Speaker 2{" "}
-                <span className="text-xs text-muted-foreground ml-1">
-                  (Optional)
-                </span>
-              </Label>
-              <Input
-                id="speaker-2"
-                name="speaker2"
-                placeholder="Additional speaker"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="speaker-3" className="text-card-foreground">
-                Speaker 3{" "}
-                <span className="text-xs text-muted-foreground ml-1">
-                  (Optional)
-                </span>
-              </Label>
-              <Input
-                id="speaker-3"
-                name="speaker3"
-                placeholder="Additional speaker"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-            {/* --- END SPEAKER SECTION --- */}
-
-            <div className="grid gap-2">
-              <Label htmlFor="date-1" className="text-card-foreground">
-                Date
-              </Label>
-              <Input
-                id="date-1"
-                name="date"
-                type="date"
-                className="bg-background border-border text-foreground"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="time-1" className="text-card-foreground">
-                Time
-              </Label>
-              <Input
-                id="time-1"
-                name="time"
-                type="time"
-                className="bg-background border-border text-foreground"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="level-1" className="text-card-foreground">
-                Level
-              </Label>
-              <Input
-                id="level-1"
-                name="level"
-                placeholder="1 / 2 / 3"
-                className="bg-background border-border text-foreground placeholder:text-muted-foreground"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="file-1" className="text-card-foreground">
-                Upload Event File
-              </Label>
-              <Input
-                id="file-1"
+                id="file"
                 name="file"
                 type="file"
-                className="bg-background border-border text-foreground"
+                className="cursor-pointer"
               />
             </div>
           </div>
 
-          <DialogFooter className="mt-6">
+          <DialogFooter className="mt-6 gap-2">
             <DialogClose asChild>
-              <Button
-                variant="outline"
-                className="border-border text-card-foreground hover:bg-card bg-transparent"
-              >
-                Cancel
-              </Button>
+              <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button
-              type="submit"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            >
-              Save changes
-            </Button>
+            <DialogClose asChild>
+              <Button type="submit">Complete & Save</Button>
+            </DialogClose>
           </DialogFooter>
         </form>
       </DialogContent>
