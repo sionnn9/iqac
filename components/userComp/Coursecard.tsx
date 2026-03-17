@@ -49,11 +49,13 @@ export const UploadEventDetails: React.FC<event> = ({
       time: formData.get("time") as string,
       level: Number(formData.get("level")), // Schema expects Number
       venue: formData.get("venue") as string, // Added venue
-      completed: true, // Assuming saving details marks it as completed
-      // Keeping speakers in the payload as requested
+      completed: true,
+      reportPdf: formData.get("file") as File,
+
       speaker1: formData.get("speaker1") as string,
       speaker2: formData.get("speaker2") as string,
       speaker3: formData.get("speaker3") as string,
+      participants: formData.get("Participants") as string,
     };
 
     try {
@@ -62,9 +64,7 @@ export const UploadEventDetails: React.FC<event> = ({
         {
           method: "PUT",
           credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+
           body: JSON.stringify(values),
         },
       );
@@ -190,6 +190,15 @@ export const UploadEventDetails: React.FC<event> = ({
               <div className="grid gap-2">
                 <Label htmlFor="venue">Venue</Label>
                 <Input id="venue" name="venue" placeholder="Hall/Room Name" />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="venue">Participants</Label>
+                <Input
+                  id="venue"
+                  name="Participants"
+                  placeholder="no of Participants"
+                />
               </div>
             </div>
 
