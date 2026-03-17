@@ -81,7 +81,7 @@ const Page: React.FC = () => {
         <TabsContent value="phase1" className="flex flex-wrap">
           {events &&
             events
-              ?.filter((data) => data.phase == 1)
+              ?.filter((data) => data.phase == 1 && data.status != "completed")
               .map((data, index) => (
                 <UploadEventDetails
                   _id={data._id}
