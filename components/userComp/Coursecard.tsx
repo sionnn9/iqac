@@ -41,6 +41,11 @@ export const UploadEventDetails: React.FC<event> = ({
     const formData = new FormData(e.currentTarget);
 
     // Mapped to match your Mongoose Schema exactly
+    const speakers = [
+      formData.get("speaker1") as string,
+      formData.get("speaker2") as string,
+      formData.get("speaker3") as string,
+    ].filter((s) => s && s.trim() !== "");
     const values = {
       eventId: _id,
       title: formData.get("title") as string,
@@ -52,9 +57,8 @@ export const UploadEventDetails: React.FC<event> = ({
       completed: true,
       reportPdf: formData.get("file") as File,
 
-      speaker1: formData.get("speaker1") as string,
-      speaker2: formData.get("speaker2") as string,
-      speaker3: formData.get("speaker3") as string,
+      speakers: speakers,
+
       participants: formData.get("Participants") as string,
     };
 
