@@ -29,6 +29,7 @@ import AssignEventCard from "../../../../../components/adminComp/eventCard";
 import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
 import CSVButton from "@/components/adminComp/CSV";
 import EventsAdmin from "@/components/adminComp/allEvents";
+import { toast } from "sonner";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -61,7 +62,7 @@ const Adduserbutton = () => {
 
       if (!response.ok) {
         console.error("Error:", await response.text());
-        alert("Something went wrong");
+        toast.error("Something went wrong");
         return;
       }
 

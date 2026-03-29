@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog";
 import CurrentSemesterStatus from "./semisterDisplay";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface DateRangeCardProps {
   DepartmentId: string | null;
@@ -69,7 +70,7 @@ export default function AddSemisterDates({ DepartmentId }: DateRangeCardProps) {
       const data = await response.json();
       console.log(data);
       if (!response.ok) {
-        alert(data.message);
+        toast.error(data.message);
       } else {
         setOpen(true);
       }
@@ -78,7 +79,7 @@ export default function AddSemisterDates({ DepartmentId }: DateRangeCardProps) {
       setEnd("");
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     } finally {
       setLoading(false);
     }

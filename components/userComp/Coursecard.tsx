@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogClose,
@@ -76,7 +77,10 @@ export const UploadEventDetails: React.FC<event> = ({
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message || "Event updated successfully");
+        toast.success(data.message || "Event updated successfully");
+        await getEvents();
+      } else {
+        toast.error(data.message || "Event updated successfully");
         await getEvents();
       }
     } catch (err) {

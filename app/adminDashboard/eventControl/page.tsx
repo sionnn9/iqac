@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -69,11 +70,12 @@ const AddBranchButton = () => {
           body: JSON.stringify({ name }),
         },
       );
+      const data = await responce.json();
       if (responce.ok) {
         await responce.json();
         GetBranches();
       } else {
-        alert("Something went wrong");
+        toast.error(data.message);
       }
     } catch (e) {
       console.log(e);
@@ -149,7 +151,7 @@ export default function Page() {
   };
   const EditBranch = async () => {
     if (newBranchName.trim()[0] == "") {
-      alert("No content added");
+      toast.error("No content added");
       return;
     }
     try {
@@ -165,7 +167,7 @@ export default function Page() {
         },
       );
       if (!responce.ok) {
-        alert(responce.text);
+        toast.error(responce.text);
         return;
       }
       const data = await responce.json();
@@ -178,7 +180,7 @@ export default function Page() {
 
   const DeleteBranch = async () => {
     if (newBranchName.trim()[0] == "") {
-      alert("No content added");
+      toast("No content added");
       return;
     }
     try {
@@ -194,7 +196,7 @@ export default function Page() {
       );
       if (!responce.ok) {
         const responceerror = await responce.text();
-        alert(responceerror);
+        toast.error(responceerror);
         return;
       }
       const data = await responce.json();

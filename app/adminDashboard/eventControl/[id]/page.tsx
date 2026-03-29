@@ -11,6 +11,7 @@ import EditDepartmentDialog from "@/components/adminComp/EditDepartmentDialog";
 
 // Shadcn Tabs Imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
 
 export default function Page() {
   const [isClient, setisClient] = useState(false);
@@ -54,7 +55,7 @@ export default function Page() {
         },
       );
       if (!responce.ok) {
-        alert("Failed to Edit");
+        toast.error("Failed to Edit");
         return;
       }
       getDepartment();
@@ -73,10 +74,10 @@ export default function Page() {
         },
       );
       if (!responce.ok) {
-        alert("Failed to Delete");
+        toast.error("Failed to Delete");
         return;
       }
-      alert("deleted Department");
+      toast.success("deleted Department");
       getDepartment();
     } catch (e) {
       console.log(e);

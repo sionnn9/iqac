@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 type Props = { DepartmentId: string | null; BranchId: string | null };
 
@@ -52,13 +53,13 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
 
       const data = await res.json();
       if (res.ok) {
-        alert("Event added successfully");
+        toast.success("Event added successfully");
       } else {
-        alert(data.message || "Error assigning event");
+        toast.error(data.message || "Error assigning event");
       }
     } catch (err) {
       console.error("Request Failed:", err);
-      alert("Server connection failed");
+      toast.error("Server connection failed");
     }
   };
 

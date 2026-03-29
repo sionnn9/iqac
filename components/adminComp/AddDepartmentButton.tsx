@@ -14,6 +14,7 @@ import { useState } from "react";
 import { DepartmentStore } from "@/app/store";
 
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AddDepartmentButton() {
   const Branch_id = useParams();
@@ -52,7 +53,7 @@ export default function AddDepartmentButton() {
   const AddDepartment = async () => {
     try {
       if (departmentName == "") {
-        alert("input empty");
+        toast.error("input empty");
         return;
       }
       console.log(`${process.env.NEXT_PUBLIC_BACKEND_LINK}addDepartment`);
