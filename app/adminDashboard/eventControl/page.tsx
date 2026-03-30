@@ -172,6 +172,8 @@ export default function Page() {
       }
       const data = await responce.json();
       console.log(data);
+      const delay = () => new Promise((resolve) => setTimeout(resolve, 1500));
+      delay();
       GetBranches();
     } catch (e) {
       console.log(e);
@@ -265,7 +267,7 @@ export default function Page() {
                     onClick={(e) => e.stopPropagation()}
                     className="sm:max-w-[425px]"
                   >
-                    <form>
+                    <div>
                       <DialogHeader className="text-center flex flex-col items-center">
                         <DialogTitle>Edit School</DialogTitle>
                         <DialogDescription>Update the name</DialogDescription>
@@ -283,17 +285,13 @@ export default function Page() {
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button
-                          type="submit"
-                          onClick={async (e) => {
-                            e.stopPropagation(); // Extra safety
-                            await EditBranch();
-                          }}
-                        >
-                          Save changes
-                        </Button>
+                        <DialogClose asChild>
+                          <Button type="submit" onClick={() => EditBranch()}>
+                            Save changes
+                          </Button>
+                        </DialogClose>
                       </DialogFooter>
-                    </form>
+                    </div>
                   </DialogContent>
                 </Dialog>
 

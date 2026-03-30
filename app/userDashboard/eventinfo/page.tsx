@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner"
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

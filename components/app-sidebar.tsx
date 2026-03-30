@@ -32,11 +32,7 @@ const data = {
       url: "/userDashboard/completedevents",
       icon: PieChart,
     },
-    {
-      name: "Upload CV",
-      url: "/userDashboard/upload",
-      icon: Map,
-    },
+
     {
       name: "Update Events",
       url: "/userDashboard/eventinfo",
