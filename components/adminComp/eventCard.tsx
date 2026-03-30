@@ -57,6 +57,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
       } else {
         toast.error(data.message || "Error assigning event");
       }
+      console.log(data);
     } catch (err) {
       console.error("Request Failed:", err);
       toast.error("Server connection failed");

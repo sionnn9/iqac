@@ -61,15 +61,16 @@ const Adduserbutton = () => {
       );
 
       if (!response.ok) {
-        console.error("Error:", await response.text());
-        toast.error("Something went wrong");
+        const errorthing = await response.json();
+        console.log("Error:");
+        toast.error(` ${errorthing.message}`);
         return;
       }
-
+      toast.success(`Added User Successfully`);
       const data = await response.json();
       console.log("User added:", data);
     } catch (e) {
-      console.error("Request failed:", e);
+      toast.error("Request failed:");
     }
   };
 

@@ -72,7 +72,7 @@ const AddBranchButton = () => {
       );
       const data = await responce.json();
       if (responce.ok) {
-        await responce.json();
+        toast.success("Successfully Added Branch");
         GetBranches();
       } else {
         toast.error(data.message);
@@ -172,7 +172,7 @@ export default function Page() {
       }
       const data = await responce.json();
       console.log(data);
-      router.refresh();
+      GetBranches();
     } catch (e) {
       console.log(e);
     }
@@ -288,7 +288,6 @@ export default function Page() {
                           onClick={async (e) => {
                             e.stopPropagation(); // Extra safety
                             await EditBranch();
-                            await GetBranches();
                           }}
                         >
                           Save changes
@@ -343,7 +342,7 @@ export default function Page() {
         <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
           <SidebarTrigger className="text-white mr-4" />
           <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-            Collegess
+            Schools
           </h1>
         </div>
         <AddBranchButton />
