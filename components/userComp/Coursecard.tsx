@@ -62,6 +62,7 @@ export const UploadEventDetails: React.FC<event> = ({
 
       participants: formData.get("Participants") as string,
     };
+    console.log(values);
 
     try {
       const res = await fetch(
@@ -69,12 +70,16 @@ export const UploadEventDetails: React.FC<event> = ({
         {
           method: "PUT",
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
 
           body: JSON.stringify(values),
         },
       );
 
       const data = await res.json();
+      console.log(data);
 
       if (res.ok) {
         toast.success(data.message || "Event updated successfully");
@@ -205,6 +210,7 @@ export const UploadEventDetails: React.FC<event> = ({
                 <Input
                   id="venue"
                   name="Participants"
+                  type="number"
                   placeholder="no of Participants"
                 />
               </div>
