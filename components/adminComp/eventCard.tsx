@@ -10,6 +10,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+interface EventType {
+  _id: string;
+  eventName: string;
+  departmentId: string;
+}
 
 type Props = { DepartmentId: string | null; BranchId: string | null };
 
@@ -17,7 +22,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
   const [type, setType] = useState("");
   const [mode, setMode] = useState("");
   const [phase, setPhase] = useState("");
-
+  const [eventTypes, setEventTypes] = useState<EventType[]>([]);
   const [noOfCards, setNoOfCards] = useState<number | null>(0);
   const [academicYears, setAcademicYears] = useState<string[]>([]);
   const [academicYear, setAcademicYear] = useState<string>("");
@@ -64,9 +69,24 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
     }
   };
 
+  const fetchEventTypes = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/getAllEventTypes?departmentId=${DepartmentId}`,
+      );
+      const data = await res.json();
+      console.log(data.data);
+      setEventTypes(data.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+    }
+  };
+
   useEffect(() => {
     const currentYear = new Date().getFullYear();
     const years = getAcademicYears(currentYear - 4, 7);
+    fetchEventTypes();
     setAcademicYears(years);
   }, []);
 
@@ -83,10 +103,9 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
             <SelectValue placeholder="Type of Event" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="seminar">Seminar</SelectItem>
-            <SelectItem value="workshop">Workshop</SelectItem>
-            <SelectItem value="guest lecture">Guest Lecture</SelectItem>
-            <SelectItem value="competition">Competition</SelectItem>
+            {eventTypes.map((data) => (
+              <SelectItem value={data.eventName}>{data.eventName}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
