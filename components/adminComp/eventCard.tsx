@@ -40,7 +40,7 @@ export default function AssignEventCard({ DepartmentId, BranchId }: Props) {
       noOfCards: noOfCards,
       mode: mode,
     };
-
+    console.log(payload);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_LINK}admin/assignEvent`,

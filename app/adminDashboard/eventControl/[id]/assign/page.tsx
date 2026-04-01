@@ -30,6 +30,7 @@ import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
 import CSVButton from "@/components/adminComp/CSV";
 import EventsAdmin from "@/components/adminComp/allEvents";
 import { toast } from "sonner";
+import EventManager from "@/components/adminComp/eventModifier";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -186,6 +187,9 @@ const Page = () => {
             <TabsTrigger value="events" className="flex-1">
               Events
             </TabsTrigger>
+            <TabsTrigger value="eventsModifier" className="flex-1">
+              Add Event Type
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -204,6 +208,9 @@ const Page = () => {
 
         <TabsContent value="events" className="mt-6 w-full ">
           <EventsAdmin departmentId={searchparam.get("id")} />
+        </TabsContent>
+        <TabsContent value="eventsModifier" className="mt-6 w-full ">
+          <EventManager departmentId={searchparam.get("id")} />
         </TabsContent>
       </Tabs>
     </div>

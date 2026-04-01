@@ -57,12 +57,12 @@ export default function EventsAdmin({
                 </h3>
                 <span
                   className={`text-[10px] font-bold px-2 py-1 rounded uppercase ${
-                    event.status === "complete"
+                    event.completed
                       ? "bg-green-100 text-green-700"
                       : "bg-blue-100 text-blue-700"
                   }`}
                 >
-                  {event.status}
+                  {event.completed ? "Completed" : "Incomplete"}
                 </span>
               </div>
 
@@ -71,23 +71,13 @@ export default function EventsAdmin({
                   <span className="text-gray-400">Type</span>
                   <span className="font-medium">{event.type}</span>
                 </div>
-                <div className="flex justify-between border-b pb-1">
-                  <span className="text-gray-400">Participants</span>
-                  <span className="font-medium">{event.participants}</span>
-                </div>
+
                 <div className="flex justify-between">
                   <span className="text-gray-400">Mode</span>
                   <span className="font-medium capitalize">{event.mode}</span>
                 </div>
               </div>
             </div>
-
-            <button
-              onClick={() => {}}
-              className="w-full bg-gray-900 hover:bg-gray-700 text-white py-2.5 rounded-xl font-bold transition-all active:scale-95"
-            >
-              Details
-            </button>
           </div>
         ))}
       </div>
