@@ -118,7 +118,7 @@ export const UploadEventDetails: React.FC<event> = ({
             </span>
             <span
               className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                status === "complete"
+                status === "completed"
                   ? "bg-green-100 text-green-900"
                   : "bg-destructive/20 text-destructive"
               }`}
