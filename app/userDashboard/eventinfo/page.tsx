@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner"
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -81,7 +82,7 @@ const Page: React.FC = () => {
         <TabsContent value="phase1" className="flex flex-wrap">
           {events &&
             events
-              ?.filter((data) => data.phase == 1)
+              ?.filter((data) => data.phase == 1 && data.status != "completed")
               .map((data, index) => (
                 <UploadEventDetails
                   _id={data._id}

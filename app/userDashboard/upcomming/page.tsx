@@ -88,11 +88,13 @@ const Page = () => {
           {"Upcomming Events"}
         </div>
       </div>
-      {upcommingevents?.length > 0
-        ? upcommingevents.map((data, index) => (
-            <EventCard key={index} event={data} />
-          ))
-        : "No upcoming events"}
+      <div className="h-full w-full justify-center items-center flex flex-wrap">
+        {upcommingevents?.length > 0
+          ? upcommingevents.map((data, index) => (
+              <EventCard key={index} event={data} />
+            ))
+          : "No upcoming events"}
+      </div>
     </div>
   );
 };

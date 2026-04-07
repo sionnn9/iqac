@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -69,11 +70,12 @@ const AddBranchButton = () => {
           body: JSON.stringify({ name }),
         },
       );
+      const data = await responce.json();
       if (responce.ok) {
-        await responce.json();
+        toast.success("Successfully Added Branch");
         GetBranches();
       } else {
-        alert("Something went wrong");
+        toast.error(data.message);
       }
     } catch (e) {
       console.log(e);
@@ -149,7 +151,7 @@ export default function Page() {
   };
   const EditBranch = async () => {
     if (newBranchName.trim()[0] == "") {
-      alert("No content added");
+      toast.error("No content added");
       return;
     }
     try {
@@ -165,12 +167,14 @@ export default function Page() {
         },
       );
       if (!responce.ok) {
-        alert(responce.text);
+        toast.error(responce.text);
         return;
       }
       const data = await responce.json();
       console.log(data);
-      router.refresh();
+      const delay = () => new Promise((resolve) => setTimeout(resolve, 1500));
+      delay();
+      GetBranches();
     } catch (e) {
       console.log(e);
     }
@@ -178,7 +182,7 @@ export default function Page() {
 
   const DeleteBranch = async () => {
     if (newBranchName.trim()[0] == "") {
-      alert("No content added");
+      toast("No content added");
       return;
     }
     try {
@@ -194,7 +198,7 @@ export default function Page() {
       );
       if (!responce.ok) {
         const responceerror = await responce.text();
-        alert(responceerror);
+        toast.error(responceerror);
         return;
       }
       const data = await responce.json();
@@ -263,7 +267,7 @@ export default function Page() {
                     onClick={(e) => e.stopPropagation()}
                     className="sm:max-w-[425px]"
                   >
-                    <form>
+                    <div>
                       <DialogHeader className="text-center flex flex-col items-center">
                         <DialogTitle>Edit School</DialogTitle>
                         <DialogDescription>Update the name</DialogDescription>
@@ -281,18 +285,13 @@ export default function Page() {
                         <DialogClose asChild>
                           <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                        <Button
-                          type="submit"
-                          onClick={async (e) => {
-                            e.stopPropagation(); // Extra safety
-                            await EditBranch();
-                            await GetBranches();
-                          }}
-                        >
-                          Save changes
-                        </Button>
+                        <DialogClose asChild>
+                          <Button type="submit" onClick={() => EditBranch()}>
+                            Save changes
+                          </Button>
+                        </DialogClose>
                       </DialogFooter>
-                    </form>
+                    </div>
                   </DialogContent>
                 </Dialog>
 
@@ -341,7 +340,7 @@ export default function Page() {
         <div className="bg-gray-950 w-full h-16 flex items-center px-4 sm:px-6">
           <SidebarTrigger className="text-white mr-4" />
           <h1 className="text-white text-lg sm:text-xl font-semibold flex-1 text-center sm:text-left pr-9">
-            Collegess
+            Schools
           </h1>
         </div>
         <AddBranchButton />

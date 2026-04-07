@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 interface Prop {
   departmentId: string | null;
@@ -39,7 +40,7 @@ export default function CSVButton({ departmentId }: Prop) {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Export Error:", error);
-      alert("Failed to download CSV.");
+      toast.error("Failed to download CSV.");
     } finally {
       setIsDownloading(false);
     }

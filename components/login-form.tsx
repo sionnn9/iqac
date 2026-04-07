@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLoggedin } from "@/app/store";
+import { toast } from "sonner";
 
 export function LoginForm({
   className,
@@ -38,7 +39,7 @@ export function LoginForm({
       });
       const data = await jwt.json();
       if (!jwt.ok) {
-        alert(data.message);
+        toast.error(data.message);
       }
 
       console.log(data);
@@ -50,7 +51,7 @@ export function LoginForm({
       if (data?.user?.role == "user") {
         isLoggedin.setLoggedIn();
         isLoggedin.setRole("user");
-        router.push("/userDashboard/update");
+        router.push("/userDashboard/eventinfo");
       }
     } catch (e) {
       console.log("error:", e);

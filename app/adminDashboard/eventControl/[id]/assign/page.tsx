@@ -29,6 +29,8 @@ import AssignEventCard from "../../../../../components/adminComp/eventCard";
 import AddSemisterDates from "../../../../../components/adminComp/Addsemister";
 import CSVButton from "@/components/adminComp/CSV";
 import EventsAdmin from "@/components/adminComp/allEvents";
+import { toast } from "sonner";
+import EventManager from "@/components/adminComp/eventModifier";
 
 // ---------------- Add User Button Component ----------------
 const Adduserbutton = () => {
@@ -60,15 +62,16 @@ const Adduserbutton = () => {
       );
 
       if (!response.ok) {
-        console.error("Error:", await response.text());
-        alert("Something went wrong");
+        const errorthing = await response.json();
+        console.log("Error:");
+        toast.error(` ${errorthing.message}`);
         return;
       }
-
+      toast.success(`Added User Successfully`);
       const data = await response.json();
       console.log("User added:", data);
     } catch (e) {
-      console.error("Request failed:", e);
+      toast.error("Request failed:");
     }
   };
 
@@ -184,9 +187,8 @@ const Page = () => {
             <TabsTrigger value="events" className="flex-1">
               Events
             </TabsTrigger>
-
-            <TabsTrigger value="set-semister" className="flex-1">
-              Set Semister
+            <TabsTrigger value="eventsModifier" className="flex-1">
+              Add Event Type
             </TabsTrigger>
           </TabsList>
         </div>
@@ -203,15 +205,12 @@ const Page = () => {
             BranchId={branchId}
           />
         </TabsContent>
-        <TabsContent
-          value="set-semister"
-          className="mt-6 w-full flex justify-center items-center"
-        >
-          <AddSemisterDates DepartmentId={searchparam.get("id")} />
-        </TabsContent>
 
         <TabsContent value="events" className="mt-6 w-full ">
           <EventsAdmin departmentId={searchparam.get("id")} />
+        </TabsContent>
+        <TabsContent value="eventsModifier" className="mt-6 w-full ">
+          <EventManager departmentId={searchparam.get("id")} />
         </TabsContent>
       </Tabs>
     </div>
